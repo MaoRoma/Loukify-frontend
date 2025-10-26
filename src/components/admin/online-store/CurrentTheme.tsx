@@ -39,13 +39,15 @@ export function CurrentTheme() {
               <Eye className="w-4 h-4" />
               Preview
             </Button>
-            <Button
-              size="sm"
-              className="gap-2 bg-foreground text-background hover:bg-foreground/90"
-            >
-              <Palette className="w-4 h-4" />
-              Customize
-            </Button>
+            <a href="/admin/online-store/customize">
+              <Button
+                size="sm"
+                className="gap-2 bg-foreground text-background hover:bg-foreground/90"
+              >
+                <Palette className="w-4 h-4" />
+                Customize
+              </Button>
+            </a>
           </div>
         </div>
 
