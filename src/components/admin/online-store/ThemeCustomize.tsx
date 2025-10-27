@@ -116,6 +116,43 @@ export function ThemeCustomizer() {
     },
   ]);
 
+  const [footer, setFooter] = useState({
+    columns: 4,
+    backgroundColor: "#ffffff",
+    columnSettings: {
+      column1: {
+        title: "Shop",
+        links: ["Products", "Collections", "New Arrivals"],
+      },
+      column2: { title: "About", links: ["Our Story", "Careers", "Press"] },
+      column3: {
+        title: "Customer Service",
+        links: ["Contact Us", "Shipping Info", "Returns"],
+      },
+      column4: {
+        title: "Follow Us",
+        links: ["Facebook", "Instagram", "Twitter"],
+      },
+    },
+    showNewsletter: true,
+    newsletterTitle: "Subscribe to our newsletter",
+    newsletterDescription: "Get the latest updates and exclusive offers",
+    showSocialIcons: true,
+    socialLinks: {
+      facebook: "https://facebook.com",
+      instagram: "https://instagram.com",
+      twitter: "https://twitter.com",
+      linkedin: "https://linkedin.com",
+    },
+    contactInfo: {
+      email: "support@yourstore.com",
+      phone: "+855 12 345 678",
+      address: "Phnom Penh, Cambodia",
+    },
+    showPaymentIcons: true,
+    copyrightText: "© 2025 Your Store. All rights reserved.",
+  });
+
   const tabs = [
     { id: "theme", label: "Theme", icon: Palette },
     { id: "header", label: "Header", icon: Type },
@@ -197,6 +234,43 @@ export function ThemeCustomizer() {
         },
       },
     ]);
+
+    setFooter({
+      columns: 4,
+      backgroundColor: "#ffffff",
+      columnSettings: {
+        column1: {
+          title: "Shop",
+          links: ["Products", "Collections", "New Arrivals"],
+        },
+        column2: { title: "About", links: ["Our Story", "Careers", "Press"] },
+        column3: {
+          title: "Customer Service",
+          links: ["Contact Us", "Shipping Info", "Returns"],
+        },
+        column4: {
+          title: "Follow Us",
+          links: ["Facebook", "Instagram", "Twitter"],
+        },
+      },
+      showNewsletter: true,
+      newsletterTitle: "Subscribe to our newsletter",
+      newsletterDescription: "Get the latest updates and exclusive offers",
+      showSocialIcons: true,
+      socialLinks: {
+        facebook: "https://facebook.com",
+        instagram: "https://instagram.com",
+        twitter: "https://twitter.com",
+        linkedin: "https://linkedin.com",
+      },
+      contactInfo: {
+        email: "support@yourstore.com",
+        phone: "+855 12 345 678",
+        address: "Phnom Penh, Cambodia",
+      },
+      showPaymentIcons: true,
+      copyrightText: "© 2025 Your Store. All rights reserved.",
+    });
   };
 
   return (
@@ -269,7 +343,9 @@ export function ThemeCustomizer() {
             <SectionsTab sections={sections} setSections={setSections} />
           )}
 
-          {activeTab === "footer" && <FooterTab />}
+          {activeTab === "footer" && (
+            <FooterTab footer={footer} setFooter={setFooter} />
+          )}
         </div>
 
         {/* Footer Actions */}
@@ -350,6 +426,7 @@ export function ThemeCustomizer() {
             buttonStyle={buttonStyle}
             header={header}
             sections={sections}
+            footer={footer}
             viewMode={viewMode}
           />
         </div>
