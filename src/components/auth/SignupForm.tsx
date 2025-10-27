@@ -1,11 +1,34 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export function SignupForm() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Add your signup logic here
+    try {
+      // Example: await signup(fullName, email, password);
+
+      // Redirect to admin dashboard after successful signup
+      router.push("/admin/dashboard");
+    } catch (error) {
+      console.error("Signup failed:", error);
+      // Handle signup error (show toast, error message, etc.)
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-semibold text-[#2a2a2a] mb-2">
@@ -15,7 +38,7 @@ export function SignupForm() {
         Start building your online store today
       </p>
 
-      <form className="space-y-5">
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <div>
           <Label
             htmlFor="fullname"
@@ -28,6 +51,7 @@ export function SignupForm() {
             type="text"
             placeholder="Enter your full name"
             className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            required
           />
         </div>
 
@@ -43,6 +67,7 @@ export function SignupForm() {
             type="email"
             placeholder="Enter your email"
             className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            required
           />
         </div>
 
@@ -58,6 +83,7 @@ export function SignupForm() {
             type="password"
             placeholder="Create a Password"
             className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            required
           />
         </div>
 
@@ -73,11 +99,12 @@ export function SignupForm() {
             type="password"
             placeholder="Confirm your password"
             className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            required
           />
         </div>
 
         <div className="flex items-start gap-2 pt-2">
-          <Checkbox id="terms" className="mt-0.5" />
+          <Checkbox id="terms" className="mt-0.5" required />
           <label
             htmlFor="terms"
             className="text-sm text-[#4a4a4a] leading-tight cursor-pointer"
@@ -88,9 +115,10 @@ export function SignupForm() {
 
         <Button
           type="submit"
-          className="w-full h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-base"
+          disabled={isLoading}
+          className="w-full h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-base disabled:opacity-50"
         >
-          Sign up
+          {isLoading ? "Creating account..." : "Sign up"}
         </Button>
       </form>
     </div>

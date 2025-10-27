@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +10,27 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FaGoogle } from "react-icons/fa";
 
 export function LoginForm() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Add your authentication logic here
+    try {
+      // Example: await login(email, password);
+
+      // Redirect to admin dashboard after successful login
+      router.push("/admin/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+      // Handle login error (show toast, error message, etc.)
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-semibold text-[#2a2a2a] mb-2">
@@ -16,7 +39,7 @@ export function LoginForm() {
       <p className="text-[#6a6a6a] text-sm mb-6">
         Enter your email and password to access your dashboard
       </p>
-      <form className="space-y-5">
+      <form className="space-y-5" onSubmit={handleSubmit}>
         <div>
           <Label
             htmlFor="login-email"
@@ -29,6 +52,7 @@ export function LoginForm() {
             type="email"
             placeholder="Enter your email"
             className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            required
           />
         </div>
 
@@ -44,6 +68,7 @@ export function LoginForm() {
             type="password"
             placeholder="Enter your password"
             className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            required
           />
         </div>
 
@@ -67,11 +92,12 @@ export function LoginForm() {
 
         <Button
           type="submit"
-          className="w-full h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-base"
+          disabled={isLoading}
+          className="w-full h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-base disabled:opacity-50"
         >
-          Log in
+          {isLoading ? "Logging in..." : "Log in"}
         </Button>
-      </form>{" "}
+      </form>
       <br />
       <br />
       <div className="w-full max-w-lg">

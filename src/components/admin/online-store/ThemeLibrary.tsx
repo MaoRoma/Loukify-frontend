@@ -13,7 +13,7 @@ const themes = [
     isCurrent: true,
     description: "A modern, minimalist theme perfect for any store",
     tags: ["Grid", "Fashion"],
-    image: "/minimalist-store-theme.jpg",
+    image: "/image/templete1.png",
   },
   {
     id: "sense",
@@ -23,7 +23,7 @@ const themes = [
     isPremium: true,
     description: "Bold and beautiful theme with masonry layout",
     tags: ["Masonry", "Fashion"],
-    image: "/masonry-store-theme.jpg",
+    image: "/image/templete2.png",
   },
   {
     id: "craft",
@@ -33,7 +33,7 @@ const themes = [
     isPremium: true,
     description: "Showcase your products with elegant design",
     tags: ["Featured", "Handmade"],
-    image: "/craft-store-theme.jpg",
+    image: "/image/templete3.png",
   },
   {
     id: "studio",
@@ -41,9 +41,9 @@ const themes = [
     rating: 4.8,
     price: "$180",
     isPremium: true,
-    description: "Professional list-view theme built for large catalogs",
+    description: "Professional list-view theme",
     tags: ["List", "Electronics"],
-    image: "/list-view-store-theme.jpg",
+    image: "/image/templete4.png",
   },
 ];
 
