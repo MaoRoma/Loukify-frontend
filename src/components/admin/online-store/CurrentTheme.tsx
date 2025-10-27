@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, Palette } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
+import Image from "next/image";
 
 export function CurrentTheme() {
   return (
@@ -39,18 +40,28 @@ export function CurrentTheme() {
               <Eye className="w-4 h-4" />
               Preview
             </Button>
-            <Button
-              size="sm"
-              className="gap-2 bg-foreground text-background hover:bg-foreground/90"
-            >
-              <Palette className="w-4 h-4" />
-              Customize
-            </Button>
+            <a href="/admin/online-store/customize">
+              <Button
+                size="sm"
+                className="gap-2 bg-foreground text-background hover:bg-foreground/90"
+              >
+                <Palette className="w-4 h-4" />
+                Customize
+              </Button>
+            </a>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="aspect-video bg-muted rounded-lg" />
+          <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+            <Image
+              src="/image/currenttheme.png"
+              alt="Dawn theme preview"
+              width={600}
+              height={400}
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div>
             <p className="text-sm text-foreground mb-4">
               A modern, minimalist theme perfect for any store. Clean design
