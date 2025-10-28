@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Trash2, Plus } from "lucide-react";
 import { useState } from "react";
 
 interface FooterTabProps {
@@ -12,10 +13,10 @@ interface FooterTabProps {
     columns: number;
     backgroundColor: string;
     columnSettings: {
-      column1: { title: string; links: string[] };
-      column2: { title: string; links: string[] };
-      column3: { title: string; links: string[] };
-      column4: { title: string; links: string[] };
+      column1: { title: string; links: { label: string; url: string }[] };
+      column2: { title: string; links: { label: string; url: string }[] };
+      column3: { title: string; links: { label: string; url: string }[] };
+      column4: { title: string; links: { label: string; url: string }[] };
     };
     showNewsletter: boolean;
     newsletterTitle: string;
@@ -49,8 +50,78 @@ export function FooterTab({ footer, setFooter }: FooterTabProps) {
     setFooter({
       ...footer,
       [parent]: {
-        ...(footer[parent as keyof typeof footer] as object),
+        ...footer[parent as keyof typeof footer],
         [key]: value,
+      },
+    });
+  };
+
+  const updateColumnTitle = (columnKey: string, title: string) => {
+    setFooter({
+      ...footer,
+      columnSettings: {
+        ...footer.columnSettings,
+        [columnKey]: {
+          ...footer.columnSettings[
+            columnKey as keyof typeof footer.columnSettings
+          ],
+          title,
+        },
+      },
+    });
+  };
+
+  const updateColumnLink = (
+    columnKey: string,
+    linkIndex: number,
+    field: "label" | "url",
+    value: string
+  ) => {
+    const column =
+      footer.columnSettings[columnKey as keyof typeof footer.columnSettings];
+    const updatedLinks = [...column.links];
+    updatedLinks[linkIndex] = { ...updatedLinks[linkIndex], [field]: value };
+
+    setFooter({
+      ...footer,
+      columnSettings: {
+        ...footer.columnSettings,
+        [columnKey]: {
+          ...column,
+          links: updatedLinks,
+        },
+      },
+    });
+  };
+
+  const addColumnLink = (columnKey: string) => {
+    const column =
+      footer.columnSettings[columnKey as keyof typeof footer.columnSettings];
+    setFooter({
+      ...footer,
+      columnSettings: {
+        ...footer.columnSettings,
+        [columnKey]: {
+          ...column,
+          links: [...column.links, { label: "", url: "" }],
+        },
+      },
+    });
+  };
+
+  const removeColumnLink = (columnKey: string, linkIndex: number) => {
+    const column =
+      footer.columnSettings[columnKey as keyof typeof footer.columnSettings];
+    const updatedLinks = column.links.filter((_, index) => index !== linkIndex);
+
+    setFooter({
+      ...footer,
+      columnSettings: {
+        ...footer.columnSettings,
+        [columnKey]: {
+          ...column,
+          links: updatedLinks,
+        },
       },
     });
   };
@@ -103,30 +174,111 @@ export function FooterTab({ footer, setFooter }: FooterTabProps) {
         <h3 className="font-semibold text-foreground">Footer Columns</h3>
 
         {[
-          { key: "column1", title: "Shop" },
-          { key: "column2", title: "About" },
-          { key: "column3", title: "Customer Service" },
-          { key: "column4", title: "Follow Us" },
-        ].map((column, index) => (
-          <button
-            key={column.key}
-            onClick={() =>
-              setExpandedColumn(
-                expandedColumn === column.key ? null : column.key
-              )
-            }
-            className="w-full flex items-center justify-between p-3 rounded-lg border border-input bg-background hover:bg-accent/50 transition-colors"
-          >
-            <span className="text-sm font-medium">
-              Column {index + 1}: {column.title}
-            </span>
-            <ChevronDown
-              className={`h-4 w-4 transition-transform ${
-                expandedColumn === column.key ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-        ))}
+          { key: "column1", defaultTitle: "Shop" },
+          { key: "column2", defaultTitle: "About" },
+          { key: "column3", defaultTitle: "Customer Service" },
+          { key: "column4", defaultTitle: "Follow Us" },
+        ].map((column, index) => {
+          const columnData =
+            footer.columnSettings[
+              column.key as keyof typeof footer.columnSettings
+            ];
+          const isExpanded = expandedColumn === column.key;
+
+          return (
+            <div key={column.key} className="space-y-3">
+              <button
+                onClick={() =>
+                  setExpandedColumn(isExpanded ? null : column.key)
+                }
+                className={`w-full flex items-center justify-between p-3 rounded-lg border transition-colors ${
+                  isExpanded
+                    ? "border-foreground bg-accent"
+                    : "border-input bg-background hover:bg-accent/50"
+                }`}
+              >
+                <span className="text-sm font-medium">
+                  Column {index + 1}: {columnData.title}
+                </span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    isExpanded ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {isExpanded && (
+                <div className="space-y-4 p-4 border border-input rounded-lg bg-background">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Column Title</Label>
+                    <Input
+                      value={columnData.title}
+                      onChange={(e) =>
+                        updateColumnTitle(column.key, e.target.value)
+                      }
+                      placeholder={column.defaultTitle}
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium">Links</Label>
+
+                    {columnData.links.map((link, linkIndex) => (
+                      <div key={linkIndex} className="space-y-2">
+                        <div className="flex gap-2">
+                          <Input
+                            value={link.label}
+                            onChange={(e) =>
+                              updateColumnLink(
+                                column.key,
+                                linkIndex,
+                                "label",
+                                e.target.value
+                              )
+                            }
+                            placeholder="Link Label"
+                            className="flex-1"
+                          />
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() =>
+                              removeColumnLink(column.key, linkIndex)
+                            }
+                            className="shrink-0 text-destructive hover:text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                        <Input
+                          value={link.url}
+                          onChange={(e) =>
+                            updateColumnLink(
+                              column.key,
+                              linkIndex,
+                              "url",
+                              e.target.value
+                            )
+                          }
+                          placeholder="/url-path"
+                        />
+                      </div>
+                    ))}
+
+                    <Button
+                      variant="outline"
+                      onClick={() => addColumnLink(column.key)}
+                      className="w-full"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Link
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Newsletter */}

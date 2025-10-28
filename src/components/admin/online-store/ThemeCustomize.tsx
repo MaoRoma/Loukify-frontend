@@ -122,16 +122,35 @@ export function ThemeCustomizer() {
     columnSettings: {
       column1: {
         title: "Shop",
-        links: ["Products", "Collections", "New Arrivals"],
+        links: [
+          { label: "New Arrivals", url: "/new" },
+          { label: "Best Sellers", url: "/bestsellers" },
+          { label: "Sale", url: "/sale" },
+        ],
       },
-      column2: { title: "About", links: ["Our Story", "Careers", "Press"] },
+      column2: {
+        title: "About",
+        links: [
+          { label: "Our Story", url: "/about" },
+          { label: "Careers", url: "/careers" },
+          { label: "Press", url: "/press" },
+        ],
+      },
       column3: {
         title: "Customer Service",
-        links: ["Contact Us", "Shipping Info", "Returns"],
+        links: [
+          { label: "Contact Us", url: "/contact" },
+          { label: "Shipping Info", url: "/shipping" },
+          { label: "Returns", url: "/returns" },
+        ],
       },
       column4: {
         title: "Follow Us",
-        links: ["Facebook", "Instagram", "Twitter"],
+        links: [
+          { label: "Facebook", url: "#" },
+          { label: "Instagram", url: "#" },
+          { label: "Twitter", url: "#" },
+        ],
       },
     },
     showNewsletter: true,
@@ -241,16 +260,35 @@ export function ThemeCustomizer() {
       columnSettings: {
         column1: {
           title: "Shop",
-          links: ["Products", "Collections", "New Arrivals"],
+          links: [
+            { label: "New Arrivals", url: "/new" },
+            { label: "Best Sellers", url: "/bestsellers" },
+            { label: "Sale", url: "/sale" },
+          ],
         },
-        column2: { title: "About", links: ["Our Story", "Careers", "Press"] },
+        column2: {
+          title: "About",
+          links: [
+            { label: "Our Story", url: "/about" },
+            { label: "Careers", url: "/careers" },
+            { label: "Press", url: "/press" },
+          ],
+        },
         column3: {
           title: "Customer Service",
-          links: ["Contact Us", "Shipping Info", "Returns"],
+          links: [
+            { label: "Contact Us", url: "/contact" },
+            { label: "Shipping Info", url: "/shipping" },
+            { label: "Returns", url: "/returns" },
+          ],
         },
         column4: {
           title: "Follow Us",
-          links: ["Facebook", "Instagram", "Twitter"],
+          links: [
+            { label: "Facebook", url: "#" },
+            { label: "Instagram", url: "#" },
+            { label: "Twitter", url: "#" },
+          ],
         },
       },
       showNewsletter: true,
@@ -289,7 +327,7 @@ export function ThemeCustomizer() {
               >
                 <X className="h-4 w-4" />
               </Button>
-              <h2 className="font-semibold text-foreground">Customize Store</h2>
+              <h2 className="font-semibold text-foreground">Customize Dawn</h2>
             </div>
           </div>
           <p className="text-xs text-muted-foreground ml-10">
