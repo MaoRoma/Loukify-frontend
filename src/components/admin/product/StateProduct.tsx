@@ -45,12 +45,6 @@ export function ProductStats() {
           </p>
         </div>
         <div className="flex space-x-2">
-          <a href="/admin/product/upload">
-            <Button className="bg-white text-black border border-gray-500">
-              <Upload className="w-4 h-4" />
-              Upload Image s{" "}
-            </Button>
-          </a>
           <a href="/admin/product/stock-price">
             <Button className="bg-white text-black border border-gray-500">
               <DollarSign className="w-4 h-4" />

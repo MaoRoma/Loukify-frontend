@@ -289,7 +289,7 @@ export function ThemeCustomizer() {
               >
                 <X className="h-4 w-4" />
               </Button>
-              <h2 className="font-semibold text-foreground">Customize Dawn</h2>
+              <h2 className="font-semibold text-foreground">Customize Store</h2>
             </div>
           </div>
           <p className="text-xs text-muted-foreground ml-10">
