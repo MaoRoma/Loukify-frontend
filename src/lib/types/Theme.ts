@@ -88,4 +88,4 @@ export interface CartItem {
   quantity: number
 }
 
-export type PageView = "home" | "cart" | "checkout"
+export type PageView = "home" | "cart" | "checkout" | "confirmOrder";

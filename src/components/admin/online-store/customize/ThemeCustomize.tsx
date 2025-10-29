@@ -14,11 +14,21 @@ import {
   LayoutGrid,
   Menu,
 } from "lucide-react";
-import { ThemePreview } from "./ThemePreview";
+import { ThemePreview } from "../ThemePreview";
 import { useRouter } from "next/navigation";
+// Add these type imports
+import type {
+  ThemeColors,
+  ThemeTypography,
+  ThemeLayout,
+  ButtonStyle,
+  HeaderConfig,
+  Section,
+  FooterConfig,
+} from "@/lib/types/Theme";
 import { ThemeTab } from "./tabs/ThemeTab";
 import { HeaderTab } from "./tabs/HeaderTab";
-import { SectionsTab } from "./tabs/SectionTab";
+import { SectionsTab } from "./tabs/SectionsTab";
 import { FooterTab } from "./tabs/FooterTab";
 
 export function ThemeCustomizer() {
@@ -28,8 +38,8 @@ export function ThemeCustomizer() {
     "desktop"
   );
 
-  // Theme customization state
-  const [colors, setColors] = useState({
+  // Add type annotations to your state
+  const [colors, setColors] = useState<ThemeColors>({
     primary: "#292524",
     secondary: "#78716c",
     accent: "#0c0a09",
@@ -37,21 +47,19 @@ export function ThemeCustomizer() {
     text: "#0c0a09",
   });
 
-  const [typography, setTypography] = useState({
+  const [typography, setTypography] = useState<ThemeTypography>({
     headingSize: 39,
     bodySize: 16,
   });
 
-  const [layout, setLayout] = useState({
+  const [layout, setLayout] = useState<ThemeLayout>({
     productsPerRow: 4,
     spacing: 24,
   });
 
-  const [buttonStyle, setButtonStyle] = useState<"square" | "rounded" | "pill">(
-    "rounded"
-  );
+  const [buttonStyle, setButtonStyle] = useState<ButtonStyle>("rounded");
 
-  const [header, setHeader] = useState({
+  const [header, setHeader] = useState<HeaderConfig>({
     logoText: "Your Store",
     layout: "minimal",
     showAnnouncement: true,
@@ -61,7 +69,7 @@ export function ThemeCustomizer() {
     showWishlistIcon: true,
   });
 
-  const [sections, setSections] = useState([
+  const [sections, setSections] = useState<Section[]>([
     {
       id: "hero",
       type: "hero",
@@ -116,7 +124,7 @@ export function ThemeCustomizer() {
     },
   ]);
 
-  const [footer, setFooter] = useState({
+  const [footer, setFooter] = useState<FooterConfig>({
     columns: 4,
     backgroundColor: "#ffffff",
     columnSettings: {

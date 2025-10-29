@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { CartProvider } from "@/lib/context/CartContext";
-import { PreviewHeader } from "./preview/PreviewHeader";
-import { PreviewFooter } from "./preview/PreviewFooter";
-import { HomePage } from "./preview/HomePageStore";
-import { CartPage } from "./preview/CartPage";
-import { CheckoutPage } from "./preview/CheckoutPageStore";
+import { PreviewHeader } from "./customize/preview/PreviewHeader";
+import { PreviewFooter } from "./customize/preview/PreviewFooter";
+import { HomePage } from "./customize/preview/HomePageStore";
+import { CartPage } from "./customize/preview/CartPage";
+import { ConfirmOrder } from "./customize/preview/ConfirmOrder";
+import { CheckoutPage } from "./customize/preview/CheckoutPageStore";
 import { getViewportWidth } from "@/lib/utils/ThemeHelper";
 import type {
   ThemeColors,
@@ -87,6 +88,15 @@ export function ThemePreview({
             typography={typography}
             buttonStyle={buttonStyle}
             onBackToCart={() => setCurrentPage("cart")}
+            onConfirmOrder={() => setCurrentPage("confirmOrder")} // Make sure this is passed
+          />
+        )}
+        {currentPage === "confirmOrder" && (
+          <ConfirmOrder
+            colors={colors}
+            typography={typography}
+            buttonStyle={buttonStyle}
+            onContinueShopping={() => setCurrentPage("home")} // 🔹 Go back to home
           />
         )}
 
