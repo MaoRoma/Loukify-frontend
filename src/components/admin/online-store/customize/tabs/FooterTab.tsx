@@ -47,10 +47,11 @@ export function FooterTab({ footer, setFooter }: FooterTabProps) {
   };
 
   const updateNestedFooter = (parent: string, key: string, value: any) => {
+    const parentObject = footer[parent as keyof typeof footer] as any;
     setFooter({
       ...footer,
       [parent]: {
-        ...footer[parent as keyof typeof footer],
+        ...parentObject,
         [key]: value,
       },
     });

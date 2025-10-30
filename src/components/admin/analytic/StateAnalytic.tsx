@@ -100,7 +100,7 @@ export function StateAnalytic() {
         />
         <StateAnalytics
           value="1"
-          label="New Customers"
+          label="Total Customers"
           description="Product categories"
           icon={<UserRound className="w-6 h-6 text-green-600" />}
         />

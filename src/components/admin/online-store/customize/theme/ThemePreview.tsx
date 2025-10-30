@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { CartProvider } from "@/lib/context/CartContext";
-import { PreviewHeader } from "./customize/preview/PreviewHeader";
-import { PreviewFooter } from "./customize/preview/PreviewFooter";
-import { HomePage } from "./customize/preview/HomePageStore";
-import { CartPage } from "./customize/preview/CartPage";
-import { ConfirmOrder } from "./customize/preview/ConfirmOrder";
-import { CheckoutPage } from "./customize/preview/CheckoutPageStore";
+import { PreviewHeader } from "../preview/PreviewHeader";
+import { PreviewFooter } from "../preview/PreviewFooter";
+import { HomePage } from "../preview/HomePageStore";
+import { CartPage } from "../preview/CartPage";
+import { ConfirmOrder } from "../preview/ConfirmOrder";
+import { CheckoutPage } from "../preview/CheckoutPageStore";
 import { getViewportWidth } from "@/lib/utils/ThemeHelper";
 import type {
   ThemeColors,

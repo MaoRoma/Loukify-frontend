@@ -1,5 +1,5 @@
-import { CurrentTheme } from "@/components/admin/online-store/CurrentTheme";
-import { ThemeLibrary } from "@/components/admin/online-store/ThemeLibrary";
+import { CurrentTheme } from "@/components/admin/online-store/customize/theme/CurrentTheme";
+import { ThemeLibrary } from "@/components/admin/online-store/customize/theme/ThemeLibrary";
 
 const OnlineStore = () => {
   return (

@@ -14,7 +14,7 @@ import {
   LayoutGrid,
   Menu,
 } from "lucide-react";
-import { ThemePreview } from "../ThemePreview";
+import { ThemePreview } from "../theme/ThemePreview";
 import { useRouter } from "next/navigation";
 // Add these type imports
 import type {
@@ -26,10 +26,10 @@ import type {
   Section,
   FooterConfig,
 } from "@/lib/types/Theme";
-import { ThemeTab } from "./tabs/ThemeTab";
-import { HeaderTab } from "./tabs/HeaderTab";
-import { SectionsTab } from "./tabs/SectionsTab";
-import { FooterTab } from "./tabs/FooterTab";
+import { ThemeTab } from "../tabs/ThemeTab";
+import { HeaderTab } from "../tabs/HeaderTab";
+import { SectionsTab } from "../tabs/SectionsTab";
+import { FooterTab } from "../tabs/FooterTab";
 
 export function ThemeCustomizer() {
   const router = useRouter();
