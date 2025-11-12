@@ -7,8 +7,10 @@ export interface ThemeColors {
 }
 
 export interface ThemeTypography {
-  headingSize: number
-  bodySize: number
+  headingFont: string;
+  bodyFont: string;
+  headingSize: number;
+  bodySize: number;
 }
 
 export interface ThemeLayout {
@@ -86,6 +88,13 @@ export interface CartItem {
   name: string
   price: number
   quantity: number
+}
+
+// Add this to your Theme types file
+export interface ThemeLayout {
+  productsPerRow: number;
+  spacing: number;
+  cardStyle: "minimal" | "ordered";
 }
 
 export type PageView = "home" | "cart" | "checkout" | "confirmOrder";

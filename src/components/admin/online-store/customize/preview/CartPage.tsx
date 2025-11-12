@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart, Minus, Plus } from "lucide-react";
+import { ShoppingCart, Minus, Plus, Trash2 } from "lucide-react";
 import type {
   ThemeColors,
   ThemeTypography,
@@ -114,24 +114,22 @@ export function CartPage({
                         ${item.price.toFixed(2)}
                       </p>
                     </div>
-                    <p
-                      className="font-semibold"
-                      style={{
-                        fontSize: `${typography.bodySize}px`,
-                        color: colors.text,
-                      }}
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="p-1 hover:bg-gray-100 rounded"
+                      style={{ color: colors.secondary }}
                     >
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </p>
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <button
-                      onClick={() => updateQuantity(item.id, -1)}
-                      className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-50 transition-colors"
-                      style={{
-                        borderColor: colors.secondary,
-                        borderRadius: getButtonRadius(buttonStyle),
-                      }}
+                      onClick={() =>
+                        updateQuantity(item.id, (item.quantity || 1) - 1)
+                      }
+                      className="p-1 border rounded hover:bg-gray-50"
+                      style={{ borderColor: colors.secondary }}
+                      disabled={(item.quantity || 1) <= 1}
                     >
                       <Minus
                         className="w-4 h-4"
@@ -139,33 +137,26 @@ export function CartPage({
                       />
                     </button>
                     <span
-                      className="w-12 text-center"
+                      className="px-3 py-1 border rounded text-center min-w-[3rem]"
                       style={{
+                        borderColor: colors.secondary,
                         fontSize: `${typography.bodySize}px`,
                         color: colors.text,
                       }}
                     >
-                      {item.quantity}
+                      {item.quantity || 1}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.id, 1)}
-                      className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-50 transition-colors"
-                      style={{
-                        borderColor: colors.secondary,
-                        borderRadius: getButtonRadius(buttonStyle),
-                      }}
+                      onClick={() =>
+                        updateQuantity(item.id, (item.quantity || 1) + 1)
+                      }
+                      className="p-1 border rounded hover:bg-gray-50"
+                      style={{ borderColor: colors.secondary }}
                     >
                       <Plus
                         className="w-4 h-4"
                         style={{ color: colors.text }}
                       />
-                    </button>
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="ml-4 text-sm hover:opacity-70 transition-opacity"
-                      style={{ color: colors.secondary }}
-                    >
-                      Remove
                     </button>
                   </div>
                 </div>

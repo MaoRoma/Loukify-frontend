@@ -3,6 +3,14 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AVAILABLE_FONTS, loadGoogleFont } from "@/lib/constants/fonts";
 
 interface ThemeTabProps {
   colors: {
@@ -14,6 +22,8 @@ interface ThemeTabProps {
   };
   setColors: (colors: any) => void;
   typography: {
+    headingFont: string;
+    bodyFont: string;
     headingSize: number;
     bodySize: number;
   };
@@ -21,6 +31,7 @@ interface ThemeTabProps {
   layout: {
     productsPerRow: number;
     spacing: number;
+    cardStyle: "minimal" | "ordered"; // Add this line
   };
   setLayout: (layout: any) => void;
   buttonStyle: "square" | "rounded" | "pill";
@@ -37,6 +48,20 @@ export function ThemeTab({
   buttonStyle,
   setButtonStyle,
 }: ThemeTabProps) {
+  const handleFontChange = (
+    fontType: "headingFont" | "bodyFont",
+    fontValue: string
+  ) => {
+    // Load the Google Font
+    loadGoogleFont(fontValue);
+
+    // Update typography state
+    setTypography({
+      ...typography,
+      [fontType]: fontValue,
+    });
+  };
+
   return (
     <>
       {/* Colors */}
@@ -167,20 +192,48 @@ export function ThemeTab({
             <Label className="text-xs text-muted-foreground">
               Heading Font
             </Label>
-            <Input
-              type="text"
-              placeholder="Font family"
-              className="mt-1 text-sm"
-            />
+            <Select
+              value={typography.headingFont}
+              onValueChange={(value) => handleFontChange("headingFont", value)}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Select heading font" />
+              </SelectTrigger>
+              <SelectContent>
+                {AVAILABLE_FONTS.map((font) => (
+                  <SelectItem
+                    key={font.value}
+                    value={font.value}
+                    style={{ fontFamily: `'${font.value}', sans-serif` }}
+                  >
+                    {font.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
             <Label className="text-xs text-muted-foreground">Body Font</Label>
-            <Input
-              type="text"
-              placeholder="Font family"
-              className="mt-1 text-sm"
-            />
+            <Select
+              value={typography.bodyFont}
+              onValueChange={(value) => handleFontChange("bodyFont", value)}
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Select body font" />
+              </SelectTrigger>
+              <SelectContent>
+                {AVAILABLE_FONTS.map((font) => (
+                  <SelectItem
+                    key={font.value}
+                    value={font.value}
+                    style={{ fontFamily: `'${font.value}', sans-serif` }}
+                  >
+                    {font.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
@@ -251,12 +304,88 @@ export function ThemeTab({
           </div>
 
           <div>
-            <Label className="text-xs text-muted-foreground">Card Style</Label>
-            <Input
-              type="text"
-              placeholder="Select style"
-              className="mt-1 text-sm"
-            />
+            <Label className="text-xs text-muted-foreground mb-2 block">
+              Card Style
+            </Label>
+            <div className="grid grid-cols-2 gap-3">
+              {/* Minimal Style */}
+              <button
+                onClick={() => setLayout({ ...layout, cardStyle: "minimal" })}
+                className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+                  layout.cardStyle === "minimal"
+                    ? "border-foreground bg-foreground/5"
+                    : "border-border hover:border-foreground/50"
+                }`}
+              >
+                <div className="w-full space-y-2">
+                  {/* Product image placeholder */}
+                  <div className="w-full h-12 bg-gray-200 rounded flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                    </svg>
+                  </div>
+                  {/* Product info */}
+                  <div className="space-y-1">
+                    <div className="h-2 bg-gray-300 rounded w-3/4"></div>
+                    <div className="h-2 bg-gray-300 rounded w-1/2"></div>
+                    <div className="h-6 bg-gray-400 rounded mt-2"></div>
+                  </div>
+                </div>
+                <span className="text-xs">Minimal</span>
+              </button>
+
+              {/* Ordered/List Style */}
+              <button
+                onClick={() => setLayout({ ...layout, cardStyle: "ordered" })}
+                className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+                  layout.cardStyle === "ordered"
+                    ? "border-foreground bg-foreground/5"
+                    : "border-border hover:border-foreground/50"
+                }`}
+              >
+                <div className="w-full space-y-2">
+                  {/* Horizontal layout */}
+                  <div className="flex gap-2 p-2 border border-gray-200 rounded">
+                    <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="h-1.5 bg-gray-300 rounded w-full"></div>
+                      <div className="h-1.5 bg-gray-300 rounded w-2/3"></div>
+                    </div>
+                    <div className="w-6 h-4 bg-gray-400 rounded"></div>
+                  </div>
+                  {/* Repeat for second item */}
+                  <div className="flex gap-2 p-2 border border-gray-200 rounded">
+                    <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="h-1.5 bg-gray-300 rounded w-full"></div>
+                      <div className="h-1.5 bg-gray-300 rounded w-2/3"></div>
+                    </div>
+                    <div className="w-6 h-4 bg-gray-400 rounded"></div>
+                  </div>
+                </div>
+                <span className="text-xs">Ordered</span>
+              </button>
+            </div>
           </div>
 
           <div>

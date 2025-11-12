@@ -15,6 +15,8 @@ import {
   Menu,
 } from "lucide-react";
 import { ThemePreview } from "../theme/ThemePreview";
+import { ThemePreviewModal } from "../theme/ThemePreviewModal";
+import { Header } from "@/components/admin/dashboard/Header";
 import { useRouter } from "next/navigation";
 // Add these type imports
 import type {
@@ -37,6 +39,7 @@ export function ThemeCustomizer() {
   const [viewMode, setViewMode] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
   );
+  const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
   // Add type annotations to your state
   const [colors, setColors] = useState<ThemeColors>({
@@ -48,6 +51,8 @@ export function ThemeCustomizer() {
   });
 
   const [typography, setTypography] = useState<ThemeTypography>({
+    headingFont: "Inter",
+    bodyFont: "Inter",
     headingSize: 39,
     bodySize: 16,
   });
@@ -55,6 +60,7 @@ export function ThemeCustomizer() {
   const [layout, setLayout] = useState<ThemeLayout>({
     productsPerRow: 4,
     spacing: 24,
+    cardStyle: "minimal", // Add this line
   });
 
   const [buttonStyle, setButtonStyle] = useState<ButtonStyle>("rounded");
@@ -195,8 +201,17 @@ export function ThemeCustomizer() {
       background: "#ffffff",
       text: "#0c0a09",
     });
-    setTypography({ headingSize: 39, bodySize: 16 });
-    setLayout({ productsPerRow: 4, spacing: 24 });
+    setTypography({
+      headingFont: "Inter",
+      bodyFont: "Inter",
+      headingSize: 39,
+      bodySize: 16,
+    });
+    setLayout({
+      productsPerRow: 4,
+      spacing: 24,
+      cardStyle: "minimal", // Add this line
+    });
     setButtonStyle("rounded");
     setHeader({
       logoText: "Your Store",
@@ -320,163 +335,184 @@ export function ThemeCustomizer() {
   };
 
   return (
-    <div className="fixed inset-0 bg-background z-50 flex">
-      {/* Left Sidebar - Customization Panel */}
-      <div className="w-[280px] border-r border-border bg-card flex flex-col">
-        {/* Header */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between mb-1">
+    <>
+      {/* Header */}
+      <Header />
+
+      <div className="fixed inset-0 top-14 bg-background z-40 flex">
+        {/* Left Sidebar - Customization Panel */}
+        <div className="w-[280px] border-r border-border bg-card flex flex-col">
+          {/* Header */}
+          <div className="p-4 border-b border-border">
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => router.back()}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+                <h2 className="font-semibold text-foreground">
+                  Customize Dawn
+                </h2>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground ml-10">
+              grid layout • Click elements to edit
+            </p>
+          </div>
+
+          {/* Tabs */}
+          <div className="grid grid-cols-2 gap-2 p-3 border-b border-border">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <Button
+                  key={tab.id}
+                  variant={activeTab === tab.id ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`justify-start gap-2 ${
+                    activeTab === tab.id
+                      ? "bg-foreground text-background hover:bg-foreground/90"
+                      : ""
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {tab.label}
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* Customization Controls */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+            {activeTab === "theme" && (
+              <ThemeTab
+                colors={colors}
+                setColors={setColors}
+                typography={typography}
+                setTypography={setTypography}
+                layout={layout}
+                setLayout={setLayout}
+                buttonStyle={buttonStyle}
+                setButtonStyle={setButtonStyle}
+              />
+            )}
+
+            {activeTab === "header" && (
+              <HeaderTab header={header} setHeader={setHeader} />
+            )}
+
+            {activeTab === "sections" && (
+              <SectionsTab sections={sections} setSections={setSections} />
+            )}
+
+            {activeTab === "footer" && (
+              <FooterTab footer={footer} setFooter={setFooter} />
+            )}
+          </div>
+
+          {/* Footer Actions */}
+          <div className="p-4 border-t border-border flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => router.back()}
+              className="flex-1"
+            >
+              Cancel
+            </Button>
+            <Button className="flex-1 bg-foreground text-background hover:bg-foreground/90">
+              Save Changes
+            </Button>
+          </div>
+        </div>
+
+        {/* Right Side - Preview Area */}
+        <div className="flex-1 flex flex-col bg-muted/30">
+          {/* Preview Header */}
+          <div className="h-14 border-b border-border bg-card flex items-center justify-between px-4">
+            <div className="text-sm font-medium text-foreground">
+              Live Preview
+            </div>
             <div className="flex items-center gap-2">
               <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => router.back()}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-              <h2 className="font-semibold text-foreground">Customize Dawn</h2>
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground ml-10">
-            grid layout • Click elements to edit
-          </p>
-        </div>
-
-        {/* Tabs */}
-        <div className="grid grid-cols-2 gap-2 p-3 border-b border-border">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <Button
-                key={tab.id}
-                variant={activeTab === tab.id ? "default" : "outline"}
+                variant="outline"
                 size="sm"
-                onClick={() => setActiveTab(tab.id)}
-                className={`justify-start gap-2 ${
-                  activeTab === tab.id
-                    ? "bg-foreground text-background hover:bg-foreground/90"
-                    : ""
-                }`}
+                onClick={handleReset}
+                className="gap-2 bg-transparent"
               >
-                <Icon className="h-4 w-4" />
-                {tab.label}
+                <RotateCcw className="w-4 h-4" />
+                Reset
               </Button>
-            );
-          })}
-        </div>
-
-        {/* Customization Controls */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
-          {activeTab === "theme" && (
-            <ThemeTab
-              colors={colors}
-              setColors={setColors}
-              typography={typography}
-              setTypography={setTypography}
-              layout={layout}
-              setLayout={setLayout}
-              buttonStyle={buttonStyle}
-              setButtonStyle={setButtonStyle}
-            />
-          )}
-
-          {activeTab === "header" && (
-            <HeaderTab header={header} setHeader={setHeader} />
-          )}
-
-          {activeTab === "sections" && (
-            <SectionsTab sections={sections} setSections={setSections} />
-          )}
-
-          {activeTab === "footer" && (
-            <FooterTab footer={footer} setFooter={setFooter} />
-          )}
-        </div>
-
-        {/* Footer Actions */}
-        <div className="p-4 border-t border-border flex gap-2">
-          <Button
-            variant="outline"
-            onClick={() => router.back()}
-            className="flex-1"
-          >
-            Cancel
-          </Button>
-          <Button className="flex-1 bg-foreground text-background hover:bg-foreground/90">
-            Save Changes
-          </Button>
-        </div>
-      </div>
-
-      {/* Right Side - Preview Area */}
-      <div className="flex-1 flex flex-col bg-muted/30">
-        {/* Preview Header */}
-        <div className="h-14 border-b border-border bg-card flex items-center justify-between px-4">
-          <div className="text-sm font-medium text-foreground">
-            Live Preview
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleReset}
-              className="gap-2 bg-transparent"
-            >
-              <RotateCcw className="w-4 h-4" />
-              Reset
-            </Button>
-            <div className="flex items-center gap-1 border border-border rounded-lg p-1">
+              <div className="flex items-center gap-1 border border-border rounded-lg p-1">
+                <Button
+                  variant={viewMode === "desktop" ? "secondary" : "ghost"}
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setViewMode("desktop")}
+                >
+                  <Monitor className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "tablet" ? "secondary" : "ghost"}
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setViewMode("tablet")}
+                >
+                  <Tablet className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "mobile" ? "secondary" : "ghost"}
+                  size="icon"
+                  className="h-7 w-7"
+                  onClick={() => setViewMode("mobile")}
+                >
+                  <Smartphone className="w-4 h-4" />
+                </Button>
+              </div>
               <Button
-                variant={viewMode === "desktop" ? "secondary" : "ghost"}
-                size="icon"
-                className="h-7 w-7"
-                onClick={() => setViewMode("desktop")}
+                variant="outline"
+                size="sm"
+                onClick={() => setIsPreviewModalOpen(true)}
+                className="gap-2 bg-transparent"
               >
-                <Monitor className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === "tablet" ? "secondary" : "ghost"}
-                size="icon"
-                className="h-7 w-7"
-                onClick={() => setViewMode("tablet")}
-              >
-                <Tablet className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === "mobile" ? "secondary" : "ghost"}
-                size="icon"
-                className="h-7 w-7"
-                onClick={() => setViewMode("mobile")}
-              >
-                <Smartphone className="w-4 h-4" />
+                <Maximize2 className="w-4 h-4" />
+                Full Preview
               </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 bg-transparent"
-            >
-              <Maximize2 className="w-4 h-4" />
-              Full Preview
-            </Button>
+          </div>
+
+          {/* Preview Content */}
+          <div className="flex-1 overflow-auto p-8 flex items-start justify-center">
+            <ThemePreview
+              colors={colors}
+              typography={typography}
+              layout={layout}
+              buttonStyle={buttonStyle}
+              header={header}
+              sections={sections}
+              footer={footer}
+              viewMode={viewMode}
+            />
           </div>
         </div>
-
-        {/* Preview Content */}
-        <div className="flex-1 overflow-auto p-8 flex items-start justify-center">
-          <ThemePreview
-            colors={colors}
-            typography={typography}
-            layout={layout}
-            buttonStyle={buttonStyle}
-            header={header}
-            sections={sections}
-            footer={footer}
-            viewMode={viewMode}
-          />
-        </div>
       </div>
-    </div>
+
+      {/* Full Preview Modal */}
+      <ThemePreviewModal
+        isOpen={isPreviewModalOpen}
+        onClose={() => setIsPreviewModalOpen(false)}
+        colors={colors}
+        typography={typography}
+        layout={layout}
+        buttonStyle={buttonStyle}
+        header={header}
+        sections={sections}
+        footer={footer}
+      />
+    </>
   );
 }

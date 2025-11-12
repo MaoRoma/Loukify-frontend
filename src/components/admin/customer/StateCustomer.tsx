@@ -31,10 +31,6 @@ export function CustomerStats() {
             Manage and engage with your customer base
           </p>
         </div>
-        <Button className="gap-2">
-          <UserPlus className="w-4 h-4" />
-          Add Customer
-        </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard value="4" label="Total Customers" />

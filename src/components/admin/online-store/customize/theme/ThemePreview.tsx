@@ -46,12 +46,13 @@ export function ThemePreview({
   return (
     <CartProvider>
       <div
-        className="bg-white shadow-2xl overflow-hidden transition-all duration-300 relative"
+        className="bg-white shadow-2xl transition-all duration-300 relative"
         style={{
           width: getViewportWidth(viewMode),
           maxWidth: "100%",
           backgroundColor: colors.background,
           color: colors.text,
+          minHeight: "100vh", // Ensure minimum height
         }}
       >
         <PreviewHeader
@@ -61,44 +62,47 @@ export function ThemePreview({
           onCartClick={() => setCurrentPage("cart")}
         />
 
-        {currentPage === "home" && (
-          <HomePage
-            colors={colors}
-            typography={typography}
-            layout={layout}
-            buttonStyle={buttonStyle}
-            sections={sections}
-            viewMode={viewMode}
-          />
-        )}
+        <div className="min-h-[50vh]">
+          {currentPage === "home" && (
+            <HomePage
+              colors={colors}
+              typography={typography}
+              layout={layout}
+              buttonStyle={buttonStyle}
+              sections={sections}
+              viewMode={viewMode}
+            />
+          )}
 
-        {currentPage === "cart" && (
-          <CartPage
-            colors={colors}
-            typography={typography}
-            buttonStyle={buttonStyle}
-            onContinueShopping={() => setCurrentPage("home")}
-            onCheckout={() => setCurrentPage("checkout")}
-          />
-        )}
+          {currentPage === "cart" && (
+            <CartPage
+              colors={colors}
+              typography={typography}
+              buttonStyle={buttonStyle}
+              onContinueShopping={() => setCurrentPage("home")}
+              onCheckout={() => setCurrentPage("checkout")}
+            />
+          )}
 
-        {currentPage === "checkout" && (
-          <CheckoutPage
-            colors={colors}
-            typography={typography}
-            buttonStyle={buttonStyle}
-            onBackToCart={() => setCurrentPage("cart")}
-            onConfirmOrder={() => setCurrentPage("confirmOrder")} // Make sure this is passed
-          />
-        )}
-        {currentPage === "confirmOrder" && (
-          <ConfirmOrder
-            colors={colors}
-            typography={typography}
-            buttonStyle={buttonStyle}
-            onContinueShopping={() => setCurrentPage("home")} // 🔹 Go back to home
-          />
-        )}
+          {currentPage === "checkout" && (
+            <CheckoutPage
+              colors={colors}
+              typography={typography}
+              buttonStyle={buttonStyle}
+              onBackToCart={() => setCurrentPage("cart")}
+              onConfirmOrder={() => setCurrentPage("confirmOrder")}
+            />
+          )}
+
+          {currentPage === "confirmOrder" && (
+            <ConfirmOrder
+              colors={colors}
+              typography={typography}
+              buttonStyle={buttonStyle}
+              onContinueShopping={() => setCurrentPage("home")}
+            />
+          )}
+        </div>
 
         <PreviewFooter
           colors={colors}

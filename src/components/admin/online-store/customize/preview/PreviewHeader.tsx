@@ -7,6 +7,7 @@ import type {
   HeaderConfig,
 } from "@/lib/types/Theme";
 import { useCart } from "@/lib/context/CartContext";
+import { getFontFamilyStyle } from "@/lib/utils/ThemeHelper";
 
 interface PreviewHeaderProps {
   colors: ThemeColors;
@@ -32,6 +33,7 @@ export function PreviewHeader({
           style={{
             backgroundColor: colors.primary,
             color: colors.background,
+            fontFamily: getFontFamilyStyle(typography.bodyFont),
           }}
         >
           {header.announcementText}
@@ -40,13 +42,22 @@ export function PreviewHeader({
 
       {/* Navigation */}
       <div className="border-b px-6 py-4 flex items-center justify-between">
-        <div className="font-bold text-xl" style={{ color: colors.text }}>
+        <div
+          className="font-bold text-xl"
+          style={{
+            color: colors.text,
+            fontFamily: getFontFamilyStyle(typography.headingFont),
+          }}
+        >
           {header.logoText}
         </div>
         <div className="flex items-center gap-6">
           <nav
             className="hidden md:flex items-center gap-6 text-sm"
-            style={{ fontSize: `${typography.bodySize}px` }}
+            style={{
+              fontSize: `${typography.bodySize}px`,
+              fontFamily: getFontFamilyStyle(typography.bodyFont),
+            }}
           >
             {header.navigationItems.map((item, index) => (
               <a key={index} href="#" style={{ color: colors.text }}>
