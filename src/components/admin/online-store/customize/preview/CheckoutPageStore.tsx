@@ -14,6 +14,7 @@ interface CheckoutPageProps {
   typography: ThemeTypography;
   buttonStyle: ButtonStyle;
   onBackToCart: () => void;
+  onConfirmOrder?: () => void; // This prop exists but isn't being used
 }
 
 export function CheckoutPage({
@@ -21,6 +22,7 @@ export function CheckoutPage({
   typography,
   buttonStyle,
   onBackToCart,
+  onConfirmOrder, // Add this parameter
 }: CheckoutPageProps) {
   const { cartItems, cartTotal } = useCart();
 
@@ -222,6 +224,9 @@ export function CheckoutPage({
                 color: colors.background,
                 borderRadius: getButtonRadius(buttonStyle),
                 fontSize: `${typography.bodySize}px`,
+              }}
+              onClick={() => {
+                onConfirmOrder?.();
               }}
             >
               Place Order

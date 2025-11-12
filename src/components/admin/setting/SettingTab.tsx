@@ -9,7 +9,6 @@ const tabs = [
   { id: "profile", label: "Profile", href: "/admin/setting/profile" },
   { id: "store", label: "Store", href: "/admin/setting/store" },
   { id: "security", label: "Security", href: "/admin/setting/security" },
-  { id: "billing", label: "Billing", href: "/admin/setting/billing" },
 ];
 
 export function SettingTab() {

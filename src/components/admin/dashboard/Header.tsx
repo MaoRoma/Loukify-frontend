@@ -9,7 +9,7 @@ export function Header() {
     <header className="h-14 border-b border-border bg-linear-to-r from-[#292524] to-[#44403B] flex items-center justify-between px-6 fixed top-0 left-0 right-0 z-50">
       <Link href="/" className="text-2xl font-bold">
         <img
-          src="/image/loukify.png"
+          src="/image/dashboardlogo.png"
           alt="Loukify Logo"
           className="inline-block w-8 h-8 mr-2"
         />
@@ -36,7 +36,7 @@ export function Header() {
               A
             </AvatarFallback>
           </Avatar>
-          <span className="text-card font-medium">Admin</span>
+          <span className="text-card font-medium">sellerds</span>
         </div>
       </div>
     </header>

@@ -21,3 +21,7 @@ export function getViewportWidth(viewMode: "desktop" | "tablet" | "mobile"): str
       return "375px"
   }
 }
+
+export function getFontFamilyStyle(fontName: string): string {
+  return `'${fontName}', sans-serif`;
+}

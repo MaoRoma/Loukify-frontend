@@ -94,53 +94,123 @@ export function HomePage({
               </p>
             )}
             <div
-              className="grid gap-6"
-              style={{
-                gridTemplateColumns: `repeat(${Math.min(
-                  gridCols,
-                  viewMode === "mobile"
-                    ? 1
-                    : viewMode === "tablet"
-                    ? 2
-                    : gridCols
-                )}, 1fr)`,
-                gap: `${layout.spacing}px`,
-              }}
+              className={
+                layout.cardStyle === "ordered" ? "space-y-4" : "grid gap-6"
+              }
+              style={
+                layout.cardStyle === "minimal"
+                  ? {
+                      gridTemplateColumns: `repeat(${Math.min(
+                        gridCols,
+                        viewMode === "mobile"
+                          ? 1
+                          : viewMode === "tablet"
+                          ? 2
+                          : gridCols
+                      )}, 1fr)`,
+                      gap: `${layout.spacing}px`,
+                    }
+                  : {}
+              }
             >
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="border rounded-lg overflow-hidden"
-                  style={{ borderColor: colors.secondary }}
-                >
-                  <div className="aspect-square bg-gray-100 flex items-center justify-center">
-                    <svg
-                      className="w-16 h-16 text-gray-300"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
-                    </svg>
+              {Array.from({ length: 8 }).map((_, i) =>
+                layout.cardStyle === "minimal" ? (
+                  // Minimal Card Style (existing grid layout)
+                  <div
+                    key={i}
+                    className="border rounded-lg overflow-hidden"
+                    style={{ borderColor: colors.secondary }}
+                  >
+                    <div className="aspect-square bg-gray-100 flex items-center justify-center">
+                      <svg
+                        className="w-16 h-16 text-gray-300"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                      </svg>
+                    </div>
+                    <div className="p-4">
+                      <h3
+                        className="font-semibold mb-1"
+                        style={{
+                          fontSize: `${typography.bodySize}px`,
+                          color: colors.text,
+                        }}
+                      >
+                        Product Name
+                      </h3>
+                      <p
+                        className="mb-3"
+                        style={{
+                          fontSize: `${typography.bodySize}px`,
+                          color: colors.text,
+                        }}
+                      >
+                        $99.00
+                      </p>
+                      <button
+                        onClick={() =>
+                          addToCart({
+                            id: i + 1,
+                            name: "Product Name",
+                            price: 99.0,
+                          })
+                        }
+                        className="w-full py-2 font-medium transition-opacity hover:opacity-90"
+                        style={{
+                          backgroundColor: colors.primary,
+                          color: colors.background,
+                          borderRadius: getButtonRadius(buttonStyle),
+                          fontSize: `${typography.bodySize}px`,
+                        }}
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
-                  <div className="p-4">
-                    <h3
-                      className="font-semibold mb-1"
-                      style={{
-                        fontSize: `${typography.bodySize}px`,
-                        color: colors.text,
-                      }}
-                    >
-                      Product Name
-                    </h3>
-                    <p
-                      className="mb-3"
-                      style={{
-                        fontSize: `${typography.bodySize}px`,
-                        color: colors.text,
-                      }}
-                    >
-                      $99.00
-                    </p>
+                ) : (
+                  // Ordered/List Card Style
+                  <div
+                    key={i}
+                    className="border rounded-lg p-4 flex gap-4 items-center"
+                    style={{ borderColor: colors.secondary }}
+                  >
+                    <div className="w-20 h-20 bg-gray-100 rounded flex items-center justify-center flex-shrink-0">
+                      <svg
+                        className="w-10 h-10 text-gray-300"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <h3
+                        className="font-semibold mb-1"
+                        style={{
+                          fontSize: `${typography.bodySize}px`,
+                          color: colors.text,
+                        }}
+                      >
+                        Product Name
+                      </h3>
+                      <p
+                        className="text-sm mb-2"
+                        style={{ color: colors.secondary }}
+                      >
+                        Category • Brand
+                      </p>
+                      <p
+                        className="font-semibold"
+                        style={{
+                          fontSize: `${typography.bodySize}px`,
+                          color: colors.text,
+                        }}
+                      >
+                        $99.00
+                      </p>
+                    </div>
                     <button
                       onClick={() =>
                         addToCart({
@@ -149,7 +219,7 @@ export function HomePage({
                           price: 99.0,
                         })
                       }
-                      className="w-full py-2 font-medium transition-opacity hover:opacity-90"
+                      className="px-6 py-2 font-medium transition-opacity hover:opacity-90 flex-shrink-0"
                       style={{
                         backgroundColor: colors.primary,
                         color: colors.background,
@@ -157,11 +227,11 @@ export function HomePage({
                         fontSize: `${typography.bodySize}px`,
                       }}
                     >
-                      Add to Cart
+                      Quick Add
                     </button>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         );
