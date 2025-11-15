@@ -272,60 +272,60 @@ export function HomePage({
           </div>
         );
 
-      case "newsletter":
-        return (
-          <div
-            key={section.id}
-            className="px-6 py-12 text-center border-b"
-            style={{ borderColor: colors.secondary }}
-          >
-            <h2
-              className="font-bold mb-2"
-              style={{
-                fontSize: `${typography.headingSize * 0.7}px`,
-                color: colors.text,
-              }}
-            >
-              {section.content.heading || "Stay Updated"}
-            </h2>
-            <p
-              className="mb-6"
-              style={{
-                fontSize: `${typography.bodySize}px`,
-                color: colors.secondary,
-              }}
-            >
-              {section.content.description ||
-                "Subscribe to our newsletter for exclusive offers and updates"}
-            </p>
-            <div className="flex gap-2 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 border rounded"
-                style={{
-                  borderColor: colors.secondary,
-                  fontSize: `${typography.bodySize}px`,
-                  borderRadius: getButtonRadius(buttonStyle),
-                }}
-              />
-              <button
-                className="px-6 py-2 font-medium transition-opacity hover:opacity-90"
-                style={{
-                  backgroundColor: colors.primary,
-                  color: colors.background,
-                  borderRadius: getButtonRadius(buttonStyle),
-                  fontSize: `${typography.bodySize}px`,
-                }}
-              >
-                {section.content.buttonText || "Subscribe"}
-              </button>
-            </div>
-          </div>
-        );
+      // case "newsletter":
+      //   return (
+      //     <div
+      //       key={section.id}
+      //       className="px-6 py-12 text-center border-b"
+      //       style={{ borderColor: colors.secondary }}
+      //     >
+      //       <h2
+      //         className="font-bold mb-2"
+      //         style={{
+      //           fontSize: `${typography.headingSize * 0.7}px`,
+      //           color: colors.text,
+      //         }}
+      //       >
+      //         {section.content.heading || "Stay Updated"}
+      //       </h2>
+      //       <p
+      //         className="mb-6"
+      //         style={{
+      //           fontSize: `${typography.bodySize}px`,
+      //           color: colors.secondary,
+      //         }}
+      //       >
+      //         {section.content.description ||
+      //           "Subscribe to our newsletter for exclusive offers and updates"}
+      //       </p>
+      //       <div className="flex gap-2 max-w-md mx-auto">
+      //         <input
+      //           type="email"
+      //           placeholder="Enter your email"
+      //           className="flex-1 px-4 py-2 border rounded"
+      //           style={{
+      //             borderColor: colors.secondary,
+      //             fontSize: `${typography.bodySize}px`,
+      //             borderRadius: getButtonRadius(buttonStyle),
+      //           }}
+      //         />
+      //         <button
+      //           className="px-6 py-2 font-medium transition-opacity hover:opacity-90"
+      //           style={{
+      //             backgroundColor: colors.primary,
+      //             color: colors.background,
+      //             borderRadius: getButtonRadius(buttonStyle),
+      //             fontSize: `${typography.bodySize}px`,
+      //           }}
+      //         >
+      //           {section.content.buttonText || "Subscribe"}
+      //         </button>
+      //       </div>
+      //     </div>
+      //   );
 
-      default:
-        return null;
+      // default:
+      //   return null;
     }
   };
 

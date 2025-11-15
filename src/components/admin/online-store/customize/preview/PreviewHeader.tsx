@@ -66,13 +66,6 @@ export function PreviewHeader({
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            {header.showSearchBar && (
-              <Search className="w-5 h-5" style={{ color: colors.text }} />
-            )}
-            {header.showWishlistIcon && (
-              <Heart className="w-5 h-5" style={{ color: colors.text }} />
-            )}
-            <User className="w-5 h-5" style={{ color: colors.text }} />
             <button
               onClick={onCartClick}
               className="relative hover:opacity-70 transition-opacity"

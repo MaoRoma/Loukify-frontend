@@ -70,7 +70,7 @@ export function ThemeCustomizer() {
     layout: "minimal",
     showAnnouncement: true,
     announcementText: "Free shipping on orders over $50",
-    navigationItems: ["Home", "Shop", "About", "Contact"],
+    navigationItems: ["Contact"],
     showSearchBar: true,
     showWishlistIcon: true,
   });
