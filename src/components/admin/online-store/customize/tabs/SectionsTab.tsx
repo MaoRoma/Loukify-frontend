@@ -65,36 +65,11 @@ export function SectionsTab({ sections, setSections }: SectionsTabProps) {
     setSections(sections.filter((section) => section.id !== id));
   };
 
-  const addSection = () => {
-    const newSection: Section = {
-      id: `section-${Date.now()}`,
-      type: "custom",
-      name: "New Section",
-      subtitle: "Custom",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "New Section",
-        description: "Add your content here",
-        buttonText: "Learn More",
-      },
-    };
-    setSections([...sections, newSection]);
-  };
-
   return (
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-foreground">Page Sections</h3>
-        <Button
-          size="sm"
-          onClick={addSection}
-          className="gap-2 bg-foreground text-background hover:bg-foreground/90"
-        >
-          <Plus className="h-4 w-4" />
-          Add Section
-        </Button>
       </div>
 
       {/* Sections List */}

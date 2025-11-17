@@ -45,12 +45,6 @@ export function ProductStats() {
           </p>
         </div>
         <div className="flex space-x-2">
-          <a href="/admin/product/stock-price">
-            <Button className="bg-white text-black border border-gray-500">
-              <DollarSign className="w-4 h-4" />
-              Stock & Prices
-            </Button>
-          </a>
           <a href="/admin/product/add-product">
             <Button>
               <Plus className="w-4 h-4" />
@@ -59,18 +53,12 @@ export function ProductStats() {
           </a>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
         <StateProduct
           value="4"
           label="Total Products"
           description="In Your Catelog"
           icon={<Package className="w-6 h-6" />}
-        />
-        <StateProduct
-          value="2"
-          label="Total Value"
-          description="Inventory value"
-          icon={<DollarSign className="w-6 h-6 text-orange-600" />}
         />
         <StateProduct
           value="1"

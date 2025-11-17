@@ -166,38 +166,6 @@ export function AddProductForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="sku" className="text-sm font-medium">
-              SKU (Stock Keeping Unit)
-            </Label>
-            <Input
-              id="sku"
-              placeholder="e.g TSS-001"
-              value={formData.sku}
-              onChange={(e) =>
-                setFormData({ ...formData, sku: e.target.value })
-              }
-              className="bg-muted/50"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="barcode" className="text-sm font-medium">
-              Bar Code
-            </Label>
-            <Input
-              id="barcode"
-              placeholder="e.g 1234567654"
-              value={formData.barcode}
-              onChange={(e) =>
-                setFormData({ ...formData, barcode: e.target.value })
-              }
-              className="bg-muted/50"
-            />
-          </div>
-        </div>
-
         <div className="flex justify-end gap-3 pt-2">
           <Button
             type="button"
