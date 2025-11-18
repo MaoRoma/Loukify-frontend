@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ThemeCard } from "./ThemeCards";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTheme } from "@/lib/context/ThemeContext";
 
 const themes = [
   {
@@ -10,14 +11,13 @@ const themes = [
     name: "Dawn",
     rating: 4.8,
     price: "Free",
-    isCurrent: true,
     description: "A modern, minimalist theme perfect for any store",
     tags: ["Grid", "Fashion"],
     image: "/image/templete1.png",
   },
   {
     id: "sense",
-    name: "Sense",
+    name: "Sence",
     rating: 4.7,
     price: "Free",
     isPremium: true,
@@ -49,8 +49,13 @@ const themes = [
 
 export function ThemeLibrary() {
   const [filter, setFilter] = useState<"all" | "free" | "premium">("all");
+  const { currentThemeId } = useTheme();
 
-  const filteredThemes = themes.filter((theme) => {
+  // Separate current theme from other themes
+  const currentTheme = themes.find((theme) => theme.id === currentThemeId);
+  const otherThemes = themes.filter((theme) => theme.id !== currentThemeId);
+
+  const filteredThemes = otherThemes.filter((theme) => {
     if (filter === "free") return theme.price === "Free";
     if (filter === "premium") return theme.price !== "Free";
     return true;
@@ -70,7 +75,9 @@ export function ThemeLibrary() {
             Browse and install themes for your store
           </p>
         </div>
-        <div className="text-sm text-muted-foreground">1 installed</div>
+        <div className="text-sm text-muted-foreground">
+          {filteredThemes.length} available
+        </div>
       </div>
 
       <Tabs
@@ -79,8 +86,8 @@ export function ThemeLibrary() {
         className="mb-6"
       >
         <TabsList>
-          <TabsTrigger value="all">All Themes ({themes.length})</TabsTrigger>
-          <TabsTrigger value="free">Free ({freeCount})</TabsTrigger>
+          <TabsTrigger value="all">All Themes ({otherThemes.length})</TabsTrigger>
+          <TabsTrigger value="free">Free ({Math.max(freeCount - 1, 0)})</TabsTrigger>
           <TabsTrigger value="premium">Premium ({premiumCount})</TabsTrigger>
         </TabsList>
       </Tabs>

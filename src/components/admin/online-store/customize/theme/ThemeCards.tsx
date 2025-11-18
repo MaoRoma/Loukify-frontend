@@ -1,7 +1,14 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Eye, Download, Palette } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import { ThemePreviewModal } from "./ThemePreviewModal";
+import { getThemeById } from "@/lib/constants/themePresets";
+import { useRouter } from "next/navigation";
+import { useTheme } from "@/lib/context/ThemeContext";
 
 interface ThemeCardProps {
   theme: {
@@ -19,6 +26,15 @@ interface ThemeCardProps {
 
 export function ThemeCard({ theme }: ThemeCardProps) {
   const isFree = theme.price === "Free";
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const router = useRouter();
+  const themePreset = getThemeById(theme.id);
+  const { setCurrentTheme } = useTheme();
+
+  const handleAddTheme = () => {
+    // Set this theme as current (stay on the same page)
+    setCurrentTheme(theme.id);
+  };
 
   return (
     <div className="border border-border rounded-xl overflow-hidden bg-card hover:shadow-lg transition-shadow">
@@ -81,6 +97,7 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             variant="outline"
             size="sm"
             className="w-full gap-2 bg-transparent"
+            onClick={() => setIsPreviewOpen(true)}
           >
             <Eye className="w-4 h-4" />
             Preview
@@ -90,6 +107,7 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             <Button
               size="sm"
               className="w-full gap-2 bg-foreground text-background hover:bg-foreground/90"
+              onClick={() => router.push(`/admin/online-store/customize?theme=${theme.id}`)}
             >
               <Palette className="w-4 h-4" />
               Customize
@@ -98,6 +116,7 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             <Button
               size="sm"
               className="w-full gap-2 bg-foreground text-background hover:bg-foreground/90"
+              onClick={handleAddTheme}
             >
               <Download className="w-4 h-4" />
               Add Theme
@@ -106,13 +125,29 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             <Button
               size="sm"
               className="w-full gap-2 bg-foreground text-background hover:bg-foreground/90"
+              onClick={handleAddTheme}
             >
               <Download className="w-4 h-4" />
-              Buy for {theme.price}
+              Add Theme
             </Button>
           )}
         </div>
       </div>
+
+      {/* Preview Modal */}
+      <ThemePreviewModal
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        themeId={theme.id}
+        themeName={theme.name}
+        colors={themePreset.colors}
+        typography={themePreset.typography}
+        layout={themePreset.layout}
+        buttonStyle={themePreset.buttonStyle}
+        header={themePreset.header}
+        sections={themePreset.sections}
+        footer={themePreset.footer}
+      />
     </div>
   );
 }

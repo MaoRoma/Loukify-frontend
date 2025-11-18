@@ -68,8 +68,8 @@ export function PreviewFooter({
             <button
               className="px-6 py-2 font-medium text-sm transition-opacity hover:opacity-90"
               style={{
-                backgroundColor: colors.primary,
-                color: colors.background,
+                backgroundColor: colors.secondary,
+                color: "#ffffff",
                 borderRadius: getButtonRadius(buttonStyle),
                 fontSize: `${typography.bodySize}px`,
               }}

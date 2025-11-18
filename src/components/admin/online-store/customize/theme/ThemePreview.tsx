@@ -21,6 +21,7 @@ import type {
 } from "@/lib/types/Theme";
 
 interface ThemePreviewProps {
+  themeId?: string;
   colors: ThemeColors;
   typography: ThemeTypography;
   layout: ThemeLayout;
@@ -32,6 +33,7 @@ interface ThemePreviewProps {
 }
 
 export function ThemePreview({
+  themeId,
   colors,
   typography,
   layout,
@@ -65,6 +67,7 @@ export function ThemePreview({
         <div className="min-h-[50vh]">
           {currentPage === "home" && (
             <HomePage
+              themeId={themeId}
               colors={colors}
               typography={typography}
               layout={layout}
