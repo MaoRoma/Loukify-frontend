@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   X,
@@ -17,7 +17,7 @@ import {
 import { ThemePreview } from "../theme/ThemePreview";
 import { ThemePreviewModal } from "../theme/ThemePreviewModal";
 import { Header } from "@/components/admin/dashboard/Header";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 // Add these type imports
 import type {
   ThemeColors,
@@ -32,159 +32,48 @@ import { ThemeTab } from "../tabs/ThemeTab";
 import { HeaderTab } from "../tabs/HeaderTab";
 import { SectionsTab } from "../tabs/SectionsTab";
 import { FooterTab } from "../tabs/FooterTab";
+import { getThemeById, dawnTheme } from "@/lib/constants/themePresets";
+import { useTheme } from "@/lib/context/ThemeContext";
 
 export function ThemeCustomizer() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { currentThemeId } = useTheme();
+  
+  // Use URL theme parameter, fallback to current theme from context
+  const themeId = searchParams.get("theme") || currentThemeId;
+  
   const [activeTab, setActiveTab] = useState("theme");
   const [viewMode, setViewMode] = useState<"desktop" | "tablet" | "mobile">(
     "desktop"
   );
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
+  // Load initial theme preset
+  const initialTheme = getThemeById(themeId);
+  
   // Add type annotations to your state
-  const [colors, setColors] = useState<ThemeColors>({
-    primary: "#292524",
-    secondary: "#78716c",
-    accent: "#0c0a09",
-    background: "#ffffff",
-    text: "#0c0a09",
-  });
+  const [colors, setColors] = useState<ThemeColors>(initialTheme.colors);
+  const [typography, setTypography] = useState<ThemeTypography>(initialTheme.typography);
+  const [layout, setLayout] = useState<ThemeLayout>(initialTheme.layout);
+  const [buttonStyle, setButtonStyle] = useState<ButtonStyle>(initialTheme.buttonStyle);
+  const [header, setHeader] = useState<HeaderConfig>(initialTheme.header);
+  const [sections, setSections] = useState<Section[]>(initialTheme.sections);
+  const [footer, setFooter] = useState<FooterConfig>(initialTheme.footer);
+  const [currentThemeName, setCurrentThemeName] = useState(initialTheme.name);
 
-  const [typography, setTypography] = useState<ThemeTypography>({
-    headingFont: "Inter",
-    bodyFont: "Inter",
-    headingSize: 39,
-    bodySize: 16,
-  });
-
-  const [layout, setLayout] = useState<ThemeLayout>({
-    productsPerRow: 4,
-    spacing: 24,
-    cardStyle: "minimal", // Add this line
-  });
-
-  const [buttonStyle, setButtonStyle] = useState<ButtonStyle>("rounded");
-
-  const [header, setHeader] = useState<HeaderConfig>({
-    logoText: "Your Store",
-    layout: "minimal",
-    showAnnouncement: true,
-    announcementText: "Free shipping on orders over $50",
-    navigationItems: ["Contact"],
-    showSearchBar: true,
-    showWishlistIcon: true,
-  });
-
-  const [sections, setSections] = useState<Section[]>([
-    {
-      id: "hero",
-      type: "hero",
-      name: "Hero Banner",
-      subtitle: "Hero",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Welcome to Our Store",
-        subheading: "Discover amazing products at great prices",
-        buttonText: "Shop Now",
-      },
-    },
-    {
-      id: "featured",
-      type: "featured-products",
-      name: "Featured Products",
-      subtitle: "Featured-Products",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Featured Collection",
-        description: "Check out our bestselling products",
-      },
-    },
-    {
-      id: "promo",
-      type: "promotional-banner",
-      name: "Promotional Banner",
-      subtitle: "Banner",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Summer Sale",
-        subheading: "Up to 50% off on selected items",
-        buttonText: "View Sale",
-      },
-    },
-    {
-      id: "newsletter",
-      type: "newsletter",
-      name: "Newsletter Signup",
-      subtitle: "Newsletter",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Stay Updated",
-        description:
-          "Subscribe to our newsletter for exclusive offers and updates",
-        buttonText: "Subscribe",
-      },
-    },
-  ]);
-
-  const [footer, setFooter] = useState<FooterConfig>({
-    columns: 4,
-    backgroundColor: "#ffffff",
-    columnSettings: {
-      column1: {
-        title: "Shop",
-        links: [
-          { label: "New Arrivals", url: "/new" },
-          { label: "Best Sellers", url: "/bestsellers" },
-          { label: "Sale", url: "/sale" },
-        ],
-      },
-      column2: {
-        title: "About",
-        links: [
-          { label: "Our Story", url: "/about" },
-          { label: "Careers", url: "/careers" },
-          { label: "Press", url: "/press" },
-        ],
-      },
-      column3: {
-        title: "Customer Service",
-        links: [
-          { label: "Contact Us", url: "/contact" },
-          { label: "Shipping Info", url: "/shipping" },
-          { label: "Returns", url: "/returns" },
-        ],
-      },
-      column4: {
-        title: "Follow Us",
-        links: [
-          { label: "Facebook", url: "#" },
-          { label: "Instagram", url: "#" },
-          { label: "Twitter", url: "#" },
-        ],
-      },
-    },
-    showNewsletter: true,
-    newsletterTitle: "Subscribe to our newsletter",
-    newsletterDescription: "Get the latest updates and exclusive offers",
-    showSocialIcons: true,
-    socialLinks: {
-      facebook: "https://facebook.com",
-      instagram: "https://instagram.com",
-      twitter: "https://twitter.com",
-      linkedin: "https://linkedin.com",
-    },
-    contactInfo: {
-      email: "support@yourstore.com",
-      phone: "+855 12 345 678",
-      address: "Phnom Penh, Cambodia",
-    },
-    showPaymentIcons: true,
-    copyrightText: "© 2025 Your Store. All rights reserved.",
-  });
+  // Update theme when themeId changes
+  useEffect(() => {
+    const theme = getThemeById(themeId);
+    setColors(theme.colors);
+    setTypography(theme.typography);
+    setLayout(theme.layout);
+    setButtonStyle(theme.buttonStyle);
+    setHeader(theme.header);
+    setSections(theme.sections);
+    setFooter(theme.footer);
+    setCurrentThemeName(theme.name);
+  }, [themeId]);
 
   const tabs = [
     { id: "theme", label: "Theme", icon: Palette },
@@ -194,144 +83,14 @@ export function ThemeCustomizer() {
   ];
 
   const handleReset = () => {
-    setColors({
-      primary: "#292524",
-      secondary: "#78716c",
-      accent: "#0c0a09",
-      background: "#ffffff",
-      text: "#0c0a09",
-    });
-    setTypography({
-      headingFont: "Inter",
-      bodyFont: "Inter",
-      headingSize: 39,
-      bodySize: 16,
-    });
-    setLayout({
-      productsPerRow: 4,
-      spacing: 24,
-      cardStyle: "minimal", // Add this line
-    });
-    setButtonStyle("rounded");
-    setHeader({
-      logoText: "Your Store",
-      layout: "minimal",
-      showAnnouncement: true,
-      announcementText: "Free shipping on orders over $50",
-      navigationItems: ["Home", "Shop", "About", "Contact"],
-      showSearchBar: true,
-      showWishlistIcon: true,
-    });
-    setSections([
-      {
-        id: "hero",
-        type: "hero",
-        name: "Hero Banner",
-        subtitle: "Hero",
-        enabled: true,
-        expanded: false,
-        content: {
-          heading: "Welcome to Our Store",
-          subheading: "Discover amazing products at great prices",
-          buttonText: "Shop Now",
-        },
-      },
-      {
-        id: "featured",
-        type: "featured-products",
-        name: "Featured Products",
-        subtitle: "Featured-Products",
-        enabled: true,
-        expanded: false,
-        content: {
-          heading: "Featured Collection",
-          description: "Check out our bestselling products",
-        },
-      },
-      {
-        id: "promo",
-        type: "promotional-banner",
-        name: "Promotional Banner",
-        subtitle: "Banner",
-        enabled: true,
-        expanded: false,
-        content: {
-          heading: "Summer Sale",
-          subheading: "Up to 50% off on selected items",
-          buttonText: "View Sale",
-        },
-      },
-      {
-        id: "newsletter",
-        type: "newsletter",
-        name: "Newsletter Signup",
-        subtitle: "Newsletter",
-        enabled: true,
-        expanded: false,
-        content: {
-          heading: "Stay Updated",
-          description:
-            "Subscribe to our newsletter for exclusive offers and updates",
-          buttonText: "Subscribe",
-        },
-      },
-    ]);
-
-    setFooter({
-      columns: 4,
-      backgroundColor: "#ffffff",
-      columnSettings: {
-        column1: {
-          title: "Shop",
-          links: [
-            { label: "New Arrivals", url: "/new" },
-            { label: "Best Sellers", url: "/bestsellers" },
-            { label: "Sale", url: "/sale" },
-          ],
-        },
-        column2: {
-          title: "About",
-          links: [
-            { label: "Our Story", url: "/about" },
-            { label: "Careers", url: "/careers" },
-            { label: "Press", url: "/press" },
-          ],
-        },
-        column3: {
-          title: "Customer Service",
-          links: [
-            { label: "Contact Us", url: "/contact" },
-            { label: "Shipping Info", url: "/shipping" },
-            { label: "Returns", url: "/returns" },
-          ],
-        },
-        column4: {
-          title: "Follow Us",
-          links: [
-            { label: "Facebook", url: "#" },
-            { label: "Instagram", url: "#" },
-            { label: "Twitter", url: "#" },
-          ],
-        },
-      },
-      showNewsletter: true,
-      newsletterTitle: "Subscribe to our newsletter",
-      newsletterDescription: "Get the latest updates and exclusive offers",
-      showSocialIcons: true,
-      socialLinks: {
-        facebook: "https://facebook.com",
-        instagram: "https://instagram.com",
-        twitter: "https://twitter.com",
-        linkedin: "https://linkedin.com",
-      },
-      contactInfo: {
-        email: "support@yourstore.com",
-        phone: "+855 12 345 678",
-        address: "Phnom Penh, Cambodia",
-      },
-      showPaymentIcons: true,
-      copyrightText: "© 2025 Your Store. All rights reserved.",
-    });
+    const theme = getThemeById(themeId);
+    setColors(theme.colors);
+    setTypography(theme.typography);
+    setLayout(theme.layout);
+    setButtonStyle(theme.buttonStyle);
+    setHeader(theme.header);
+    setSections(theme.sections);
+    setFooter(theme.footer);
   };
 
   return (
@@ -355,12 +114,12 @@ export function ThemeCustomizer() {
                   <X className="h-4 w-4" />
                 </Button>
                 <h2 className="font-semibold text-foreground">
-                  Customize Dawn
+                  Customize {currentThemeName}
                 </h2>
               </div>
             </div>
             <p className="text-xs text-muted-foreground ml-10">
-              grid layout • Click elements to edit
+              {layout.productsPerRow === 3 ? "masonry" : "grid"} layout • Click elements to edit
             </p>
           </div>
 
@@ -488,6 +247,7 @@ export function ThemeCustomizer() {
           {/* Preview Content */}
           <div className="flex-1 overflow-auto p-8 flex items-start justify-center">
             <ThemePreview
+              themeId={themeId}
               colors={colors}
               typography={typography}
               layout={layout}
@@ -505,6 +265,8 @@ export function ThemeCustomizer() {
       <ThemePreviewModal
         isOpen={isPreviewModalOpen}
         onClose={() => setIsPreviewModalOpen(false)}
+        themeId={themeId}
+        themeName={currentThemeName}
         colors={colors}
         typography={typography}
         layout={layout}

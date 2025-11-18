@@ -17,6 +17,8 @@ import type {
 interface ThemePreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
+  themeId?: string;
+  themeName?: string;
   colors: ThemeColors;
   typography: ThemeTypography;
   layout: ThemeLayout;
@@ -29,6 +31,8 @@ interface ThemePreviewModalProps {
 export function ThemePreviewModal({
   isOpen,
   onClose,
+  themeId,
+  themeName = "Theme",
   colors,
   typography,
   layout,
@@ -44,12 +48,12 @@ export function ThemePreviewModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/90 z-[100] flex flex-col">
+    <div className="fixed inset-0 bg-black/90 z-100 flex flex-col">
       {/* Modal Header - Fixed */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
+      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
           <h2 className="text-lg font-semibold text-gray-900">
-            Full Preview - Dawn Theme
+            Full Preview - {themeName} Theme
           </h2>
           <div className="flex items-center gap-1 border border-gray-200 rounded-lg p-1">
             <Button
@@ -98,6 +102,7 @@ export function ThemePreviewModal({
         >
           <div className="flex justify-center p-4">
             <ThemePreview
+              themeId={themeId}
               colors={colors}
               typography={typography}
               layout={layout}
