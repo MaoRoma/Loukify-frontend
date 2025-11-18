@@ -448,13 +448,7 @@ export function OrderTable() {
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="border border-gray-400 h-8 w-8"
-                        >
-                          <Mail className="w-4 h-4" />
-                        </Button>
+
                         <Button
                           variant="ghost"
                           size="icon"

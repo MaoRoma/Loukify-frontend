@@ -76,22 +76,6 @@ const StoreSetting = () => {
             </InputGroupAddon>
           </InputGroup>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="storetype" className="text-sm font-medium">
-            Currency
-          </Label>
-          <Select>
-            <SelectTrigger className="bg-muted/50">
-              <SelectValue placeholder="Select Currency" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="usd">USD-Dollar</SelectItem>
-                <SelectItem value="riel">Riel-Cambodian Riel</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
         <Button className="bg-primary hover:bg-primary/90">
           <Save className="w-4 h-4 mr-2" />
           Save Changes
