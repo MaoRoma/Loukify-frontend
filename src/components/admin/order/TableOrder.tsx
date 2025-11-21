@@ -12,6 +12,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface OrderItem {
   id: string;
@@ -174,13 +181,53 @@ function getStatusVariant(status: Order["status"]) {
   }
 }
 
-export function OrderTable() {
+interface OrderTableProps {
+  searchQuery?: string;
+  sortByPriority?: boolean;
+}
+
+export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTableProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [orders, setOrders] = useState<Order[]>(Orders);
+
+  // Filter orders based on search query
+  let filteredOrders = orders.filter((order) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      order.orderID.toLowerCase().includes(query) ||
+      order.email.toLowerCase().includes(query) ||
+      order.customerID.toLowerCase().includes(query) ||
+      order.status.toLowerCase().includes(query) ||
+      order.phone.toLowerCase().includes(query)
+    );
+  });
+
+  // Sort by priority if filter is active
+  if (sortByPriority) {
+    filteredOrders = [...filteredOrders].sort((a, b) => {
+      // First priority: Pending orders come before Completed orders
+      if (a.status === "Pending" && b.status === "Completed") return -1;
+      if (a.status === "Completed" && b.status === "Pending") return 1;
+      
+      // Second priority: Within same status, sort by date (oldest first - FIFO)
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      return dateA - dateB;
+    });
+  }
 
   const handleViewOrder = (order: Order) => {
     setSelectedOrder(order);
     setIsDialogOpen(true);
+  };
+
+  const handleStatusChange = (orderID: string, newStatus: "Pending" | "Completed") => {
+    setOrders((prevOrders) =>
+      prevOrders.map((order) =>
+        order.orderID === orderID ? { ...order, status: newStatus } : order
+      )
+    );
   };
 
   const handlePrintReceipt = (order: Order) => {
@@ -396,11 +443,18 @@ export function OrderTable() {
                 </tr>
               </thead>
               <tbody>
-                {Orders.map((order) => (
-                  <tr
-                    key={order.orderID}
-                    className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
-                  >
+                {filteredOrders.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="py-8 text-center text-muted-foreground">
+                      No orders found matching your search.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredOrders.map((order) => (
+                    <tr
+                      key={order.orderID}
+                      className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
+                    >
                     <td className="py-4 px-4">
                       <div className="font-medium text-foreground">
                         {order.orderID}
@@ -417,16 +471,26 @@ export function OrderTable() {
                       </div>
                     </td>
                     <td className="py-4 px-4">
-                      <Badge
-                        variant={getStatusVariant(order.status)}
-                        className={
-                          order.status === "Pending"
-                            ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-100"
-                            : "bg-green-100 text-green-700 hover:bg-green-100"
+                      <Select
+                        value={order.status}
+                        onValueChange={(value) =>
+                          handleStatusChange(order.orderID, value as "Pending" | "Completed")
                         }
                       >
-                        {order.status}
-                      </Badge>
+                        <SelectTrigger
+                          className={`w-[130px] ${
+                            order.status === "Pending"
+                              ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-100"
+                              : "bg-green-100 text-green-700 border-green-300 hover:bg-green-100"
+                          }`}
+                        >
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Pending">Pending</SelectItem>
+                          <SelectItem value="Completed">Completed</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </td>
                     <td className="py-4 px-4">
                       <div className="font-medium text-foreground">
@@ -460,7 +524,8 @@ export function OrderTable() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>

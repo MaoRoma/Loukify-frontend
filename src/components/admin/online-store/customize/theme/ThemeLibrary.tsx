@@ -19,7 +19,7 @@ const themes = [
     id: "sense",
     name: "Sence",
     rating: 4.7,
-    price: "Free",
+    price: "$180",
     isPremium: true,
     description: "Bold and beautiful theme with masonry layout",
     tags: ["Masonry", "Fashion"],
@@ -63,6 +63,7 @@ export function ThemeLibrary() {
 
   const freeCount = themes.filter((t) => t.price === "Free").length;
   const premiumCount = themes.filter((t) => t.price !== "Free").length;
+  const totalCount = themes.length;
 
   return (
     <div>
@@ -86,8 +87,8 @@ export function ThemeLibrary() {
         className="mb-6"
       >
         <TabsList>
-          <TabsTrigger value="all">All Themes ({otherThemes.length})</TabsTrigger>
-          <TabsTrigger value="free">Free ({Math.max(freeCount - 1, 0)})</TabsTrigger>
+          <TabsTrigger value="all">All Themes ({totalCount})</TabsTrigger>
+          <TabsTrigger value="free">Free ({freeCount})</TabsTrigger>
           <TabsTrigger value="premium">Premium ({premiumCount})</TabsTrigger>
         </TabsList>
       </Tabs>

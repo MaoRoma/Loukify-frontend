@@ -2,7 +2,6 @@ import { PromoBanner } from "@/components/admin/dashboard/PromoBanner";
 import { StoreNameInput } from "@/components/admin/dashboard/SearchBar";
 import { ProductCard } from "@/components/admin/dashboard/ProductCard";
 import { ThemeCard } from "@/components/admin/dashboard/ThemeCard";
-import { SetupCards } from "@/components/admin/dashboard/SetupCard";
 
 export default function DashboardPage() {
   return (
@@ -13,7 +12,6 @@ export default function DashboardPage() {
         <ProductCard />
         <ThemeCard />
       </div>
-      <SetupCards />
     </>
   );
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import { Card } from "@/components/ui/card";
 import { Mail, Phone, MapPin } from "lucide-react";
 
@@ -77,7 +79,22 @@ const customers: Customer[] = [
   },
 ];
 
-export function CustomerTable() {
+interface CustomerTableProps {
+  searchQuery?: string;
+}
+
+export function CustomerTable({ searchQuery = "" }: CustomerTableProps) {
+  // Filter customers based on search query
+  const filteredCustomers = customers.filter((customer) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      customer.name.toLowerCase().includes(query) ||
+      customer.email.toLowerCase().includes(query) ||
+      customer.phone.toLowerCase().includes(query) ||
+      customer.location.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <Card className="overflow-hidden">
       <div className="p-6">
@@ -108,11 +125,18 @@ export function CustomerTable() {
               </tr>
             </thead>
             <tbody>
-              {customers.map((customer) => (
-                <tr
-                  key={customer.id}
-                  className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
-                >
+              {filteredCustomers.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 text-center text-muted-foreground">
+                    No customers found matching your search.
+                  </td>
+                </tr>
+              ) : (
+                filteredCustomers.map((customer) => (
+                  <tr
+                    key={customer.id}
+                    className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
+                  >
                   <td className="py-4 px-4">
                     <div className="font-medium text-foreground">
                       #{customer.id.toString().padStart(3, "0")}
@@ -147,7 +171,8 @@ export function CustomerTable() {
                     </div>
                   </td>
                 </tr>
-              ))}
+                ))
+              )}
             </tbody>
           </table>
         </div>

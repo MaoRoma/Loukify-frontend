@@ -158,6 +158,7 @@ export function ThemeCustomizer() {
                 setLayout={setLayout}
                 buttonStyle={buttonStyle}
                 setButtonStyle={setButtonStyle}
+                themeId={themeId}
               />
             )}
 

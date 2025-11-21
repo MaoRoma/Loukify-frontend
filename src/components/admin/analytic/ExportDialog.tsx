@@ -10,10 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Download, FileSpreadsheet, FileJson, FileText } from "lucide-react";
-
-type ExportFormat = "csv" | "json" | "pdf";
+import { Download, FileText } from "lucide-react";
 
 interface ExportDialogProps {
   open: boolean;
@@ -34,7 +31,6 @@ export function ExportDialog({
   onOpenChange,
   analyticsData,
 }: ExportDialogProps) {
-  const [format, setFormat] = useState<ExportFormat>("csv");
   const [selectedData, setSelectedData] = useState({
     keyMetrics: true,
     salesOverview: true,
@@ -47,19 +43,7 @@ export function ExportDialog({
 
   const handleExport = () => {
     const dataToExport = prepareExportData();
-
-    switch (format) {
-      case "csv":
-        exportAsCSV(dataToExport);
-        break;
-      case "json":
-        exportAsJSON(dataToExport);
-        break;
-      case "pdf":
-        exportAsPDF(dataToExport);
-        break;
-    }
-
+    exportAsPDF(dataToExport);
     onOpenChange(false);
   };
 
@@ -77,45 +61,6 @@ export function ExportDialog({
     }
 
     return data;
-  };
-
-  const exportAsCSV = (data: any) => {
-    let csvContent = "";
-
-    // Export Key Metrics
-    if (data.keyMetrics) {
-      csvContent += "Key Metrics\n";
-      csvContent += "Metric,Value\n";
-      csvContent += `Total Revenue,$${data.keyMetrics.revenue.toLocaleString()}\n`;
-      csvContent += `Total Orders,${data.keyMetrics.orders.toLocaleString()}\n`;
-      csvContent += `New Customers,${data.keyMetrics.customers.toLocaleString()}\n\n`;
-    }
-
-    // Export Sales Overview
-    if (data.salesOverview) {
-      csvContent += "Sales Overview\n";
-      csvContent += "Month,Sales\n";
-      data.salesOverview.forEach((item: any) => {
-        csvContent += `${item.month},${item.sales}\n`;
-      });
-      csvContent += "\n";
-    }
-
-    // Export Order Volume
-    if (data.orderVolume) {
-      csvContent += "Order Volume\n";
-      csvContent += "Month,Orders\n";
-      data.orderVolume.forEach((item: any) => {
-        csvContent += `${item.month},${item.orders}\n`;
-      });
-    }
-
-    downloadFile(csvContent, "analytics-export.csv", "text/csv");
-  };
-
-  const exportAsJSON = (data: any) => {
-    const jsonContent = JSON.stringify(data, null, 2);
-    downloadFile(jsonContent, "analytics-export.json", "application/json");
   };
 
   const exportAsPDF = (data: any) => {
@@ -402,68 +347,20 @@ export function ExportDialog({
             </div>
           </div>
           <p className="text-muted-foreground text-base mt-2">
-            Choose the format and data you want to export
+            Select the data you want to export as PDF
           </p>
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          {/* Export Format Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Export Format</h3>
-            <RadioGroup
-              value={format}
-              onValueChange={(value) => setFormat(value as ExportFormat)}
-            >
-              <div className="space-y-3">
-                <div className="flex items-center space-x-4 p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="csv" id="csv" />
-                  <Label
-                    htmlFor="csv"
-                    className="flex items-center gap-3 flex-1 cursor-pointer"
-                  >
-                    <FileSpreadsheet className="w-6 h-6 text-green-600" />
-                    <div>
-                      <div className="font-semibold">CSV File</div>
-                      <div className="text-sm text-muted-foreground">
-                        Best for Excel and spreadsheet apps
-                      </div>
-                    </div>
-                  </Label>
-                </div>
-
-                <div className="flex items-center space-x-4 p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="json" id="json" />
-                  <Label
-                    htmlFor="json"
-                    className="flex items-center gap-3 flex-1 cursor-pointer"
-                  >
-                    <FileJson className="w-6 h-6 text-blue-600" />
-                    <div>
-                      <div className="font-semibold">JSON File</div>
-                      <div className="text-sm text-muted-foreground">
-                        Structured data for developers
-                      </div>
-                    </div>
-                  </Label>
-                </div>
-
-                <div className="flex items-center space-x-4 p-4 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="pdf" id="pdf" />
-                  <Label
-                    htmlFor="pdf"
-                    className="flex items-center gap-3 flex-1 cursor-pointer"
-                  >
-                    <FileText className="w-6 h-6 text-red-600" />
-                    <div>
-                      <div className="font-semibold">PDF Report</div>
-                      <div className="text-sm text-muted-foreground">
-                        Professional formatted report
-                      </div>
-                    </div>
-                  </Label>
-                </div>
+          {/* PDF Export Info */}
+          <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg border border-border">
+            <FileText className="w-8 h-8 text-red-600 shrink-0" />
+            <div>
+              <div className="font-semibold text-base">Export as PDF Report</div>
+              <div className="text-sm text-muted-foreground">
+                Your analytics data will be exported as a professional formatted PDF document
               </div>
-            </RadioGroup>
+            </div>
           </div>
 
           {/* Select Data Section */}
@@ -524,10 +421,10 @@ export function ExportDialog({
           </Button>
           <Button
             onClick={handleExport}
-            className="bg-foreground text-background hover:bg-foreground/90"
+            className="bg-red-600 text-white hover:bg-red-700"
           >
             <Download className="w-4 h-4 mr-2" />
-            Export Data
+            Export as PDF
           </Button>
         </div>
       </DialogContent>

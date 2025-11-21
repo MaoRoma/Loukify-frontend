@@ -97,4 +97,4 @@ export interface ThemeLayout {
   cardStyle: "minimal" | "ordered";
 }
 
-export type PageView = "home" | "cart" | "checkout" | "confirmOrder";
+export type PageView = "home" | "cart" | "checkout" | "confirmOrder" | "productDetail" | "wishlist";

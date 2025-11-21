@@ -49,8 +49,8 @@ export const dawnTheme: ThemePreset = {
     showAnnouncement: true,
     announcementText: "Free shipping on orders over $50",
     navigationItems: ["Home", "Shop", "About", "Contact"],
-    showSearchBar: true,
-    showWishlistIcon: true,
+    showSearchBar: false,
+    showWishlistIcon: false,
   },
   sections: [
     {
@@ -91,19 +91,6 @@ export const dawnTheme: ThemePreset = {
         buttonText: "View Sale",
       },
     },
-    {
-      id: "newsletter",
-      type: "newsletter",
-      name: "Newsletter Signup",
-      subtitle: "Newsletter",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Stay Updated",
-        description: "Subscribe to our newsletter for exclusive offers and updates",
-        buttonText: "Subscribe",
-      },
-    },
   ],
   footer: {
     columns: 4,
@@ -142,9 +129,9 @@ export const dawnTheme: ThemePreset = {
         ],
       },
     },
-    showNewsletter: true,
-    newsletterTitle: "Stay Updated",
-    newsletterDescription: "Subscribe to our newsletter for exclusive offers and updates",
+    showNewsletter: false,
+    newsletterTitle: "",
+    newsletterDescription: "",
     showSocialIcons: true,
     socialLinks: {
       facebook: "https://facebook.com",
@@ -192,7 +179,7 @@ export const senceTheme: ThemePreset = {
     announcementText: "Free shipping on orders over $50",
     navigationItems: ["Home", "Shop", "About", "Contact"],
     showSearchBar: false,
-    showWishlistIcon: true,
+    showWishlistIcon: false,
   },
   sections: [
     {
@@ -233,19 +220,6 @@ export const senceTheme: ThemePreset = {
         buttonText: "View Sale",
       },
     },
-    {
-      id: "newsletter",
-      type: "newsletter",
-      name: "Newsletter Signup",
-      subtitle: "Newsletter",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Stay Updated",
-        description: "Subscribe to our newsletter for exclusive offers and updates",
-        buttonText: "Subscribe",
-      },
-    },
   ],
   footer: {
     columns: 4,
@@ -284,9 +258,9 @@ export const senceTheme: ThemePreset = {
         ],
       },
     },
-    showNewsletter: true,
-    newsletterTitle: "Stay Updated",
-    newsletterDescription: "Subscribe to our newsletter for exclusive offers and updates",
+    showNewsletter: false,
+    newsletterTitle: "",
+    newsletterDescription: "",
     showSocialIcons: false,
     socialLinks: {
       facebook: "",
@@ -333,8 +307,8 @@ export const craftTheme: ThemePreset = {
     showAnnouncement: true,
     announcementText: "Free shipping on orders over $50",
     navigationItems: ["Home", "Shop", "About", "Contact"],
-    showSearchBar: true,
-    showWishlistIcon: true,
+    showSearchBar: false,
+    showWishlistIcon: false,
   },
   sections: [
     {
@@ -375,19 +349,6 @@ export const craftTheme: ThemePreset = {
         buttonText: "View Sale",
       },
     },
-    {
-      id: "newsletter",
-      type: "newsletter",
-      name: "Newsletter Signup",
-      subtitle: "Newsletter",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Stay Updated",
-        description: "Subscribe to our newsletter for exclusive offers and updates",
-        buttonText: "Subscribe",
-      },
-    },
   ],
   footer: {
     columns: 4,
@@ -426,9 +387,9 @@ export const craftTheme: ThemePreset = {
         ],
       },
     },
-    showNewsletter: true,
-    newsletterTitle: "Stay Updated",
-    newsletterDescription: "Subscribe to our newsletter for exclusive offers and updates",
+    showNewsletter: false,
+    newsletterTitle: "",
+    newsletterDescription: "",
     showSocialIcons: true,
     socialLinks: {
       facebook: "https://facebook.com",
@@ -475,8 +436,8 @@ export const studioTheme: ThemePreset = {
     showAnnouncement: true,
     announcementText: "Free shipping on orders over $50",
     navigationItems: ["Home", "Shop", "About", "Contact"],
-    showSearchBar: true,
-    showWishlistIcon: true,
+    showSearchBar: false,
+    showWishlistIcon: false,
   },
   sections: [
     {
@@ -517,19 +478,6 @@ export const studioTheme: ThemePreset = {
         buttonText: "View Sale",
       },
     },
-    {
-      id: "newsletter",
-      type: "newsletter",
-      name: "Newsletter Signup",
-      subtitle: "Newsletter",
-      enabled: true,
-      expanded: false,
-      content: {
-        heading: "Stay Updated",
-        description: "Subscribe to our newsletter for exclusive offers and updates",
-        buttonText: "Subscribe",
-      },
-    },
   ],
   footer: {
     columns: 4,
@@ -568,9 +516,9 @@ export const studioTheme: ThemePreset = {
         ],
       },
     },
-    showNewsletter: true,
-    newsletterTitle: "Stay Updated",
-    newsletterDescription: "Subscribe to our newsletter for exclusive offers and updates",
+    showNewsletter: false,
+    newsletterTitle: "",
+    newsletterDescription: "",
     showSocialIcons: true,
     socialLinks: {
       facebook: "https://facebook.com",
