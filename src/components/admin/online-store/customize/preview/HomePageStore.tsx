@@ -10,6 +10,17 @@ import type {
 import { getButtonRadius } from "@/lib/utils/ThemeHelper";
 import { useCart } from "@/lib/context/CartContext";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description?: string;
+  category?: string;
+  stock?: string;
+  rating?: number;
+  reviews?: number;
+}
+
 interface HomePageProps {
   themeId?: string;
   colors: ThemeColors;
@@ -18,6 +29,7 @@ interface HomePageProps {
   buttonStyle: ButtonStyle;
   sections: Section[];
   viewMode: "desktop" | "tablet" | "mobile";
+  onProductClick?: (product: Product) => void;
 }
 
 export function HomePage({
@@ -28,9 +40,20 @@ export function HomePage({
   buttonStyle,
   sections,
   viewMode,
+  onProductClick,
 }: HomePageProps) {
   const { addToCart } = useCart();
   const gridCols = layout.productsPerRow;
+
+  const handleScrollToShop = () => {
+    const shopSection = document.getElementById('shop');
+    if (shopSection) {
+      shopSection.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
 
   const renderSection = (section: Section) => {
     if (!section.enabled) return null;
@@ -38,7 +61,7 @@ export function HomePage({
     switch (section.type) {
       case "hero":
         return (
-          <div key={section.id} className="px-6 py-16 text-center">
+          <div key={section.id} id="home" className="px-6 py-16 text-center">
             <h1
               className="font-bold mb-4"
               style={{
@@ -59,7 +82,8 @@ export function HomePage({
                 "Discover amazing products at great prices"}
             </p>
             <button
-              className="px-8 py-3 font-medium transition-opacity hover:opacity-90"
+              onClick={handleScrollToShop}
+              className="px-8 py-3 font-medium transition-opacity hover:opacity-90 cursor-pointer"
               style={{
                 backgroundColor: colors.secondary,
                 color: "#ffffff",
@@ -74,7 +98,7 @@ export function HomePage({
 
       case "featured-products":
         return (
-          <div key={section.id} className="px-6 py-12">
+          <div key={section.id} id="shop" className="px-6 py-12">
             <h2
               className="text-center font-bold mb-8"
               style={{
@@ -110,7 +134,19 @@ export function HomePage({
                 {/* Featured Section (Artisan Collection) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-12 max-w-6xl mx-auto px-6">
                   {/* Left Column - Image Card with Shadow */}
-                  <div className="bg-gray-200 rounded-xl aspect-4/5 shadow-2xl flex items-center justify-center">
+                  <div 
+                    onClick={() => onProductClick?.({ 
+                      id: 1, 
+                      name: "Artisan Collection", 
+                      price: 299.0,
+                      description: "Handcrafted with attention to detail. Each piece tells a unique story.",
+                      category: "Featured",
+                      stock: "In Stock",
+                      rating: 4.8,
+                      reviews: 124
+                    })}
+                    className="bg-gray-200 rounded-xl aspect-4/5 shadow-2xl flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+                  >
                     <svg className="w-24 h-24 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
                     </svg>
@@ -121,7 +157,19 @@ export function HomePage({
                     <div className="text-sm uppercase tracking-wide text-gray-500">
                       Featured
                     </div>
-                    <h3 className="font-serif text-4xl font-bold text-gray-900 mt-2">
+                    <h3 
+                      onClick={() => onProductClick?.({ 
+                        id: 1, 
+                        name: "Artisan Collection", 
+                        price: 299.0,
+                        description: "Handcrafted with attention to detail. Each piece tells a unique story.",
+                        category: "Featured",
+                        stock: "In Stock",
+                        rating: 4.8,
+                        reviews: 124
+                      })}
+                      className="font-serif text-4xl font-bold text-gray-900 mt-2 cursor-pointer hover:opacity-70 transition-opacity"
+                    >
                       Artisan Collection
                     </h3>
                     <p className="text-gray-600 mt-4">
@@ -146,7 +194,18 @@ export function HomePage({
                 {/* Secondary Items (Craft Items) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-24 px-6">
                   {Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i}>
+                    <div key={i} className="cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => onProductClick?.({ 
+                        id: i + 2, 
+                        name: `Craft Item ${i + 1}`, 
+                        price: 149.0,
+                        description: "Handcrafted artisan product with unique design and exceptional quality.",
+                        category: "Craft Collection",
+                        stock: "In Stock",
+                        rating: 4.5 + (i * 0.1),
+                        reviews: 45 + (i * 10)
+                      })}
+                    >
                       {/* Image Card with Shadow */}
                       <div className="bg-gray-200 rounded-xl aspect-square shadow-2xl flex items-center justify-center">
                         <svg className="w-20 h-20 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
@@ -174,7 +233,18 @@ export function HomePage({
               <div className="max-w-7xl mx-auto px-6 py-12">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 auto-rows-fr">
                   {/* Product 1 - Large (2x2) */}
-                  <div className="col-span-2 row-span-2 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <div className="col-span-2 row-span-2 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                    onClick={() => onProductClick?.({ 
+                      id: 1, 
+                      name: 'Premium Product', 
+                      price: 299,
+                      description: "Premium quality product with advanced features and elegant design.",
+                      category: "Premium",
+                      stock: "In Stock",
+                      rating: 4.9,
+                      reviews: 256
+                    })}
+                  >
                     <div className="h-full flex flex-col">
                       <div className="flex-1 bg-linear-to-br from-blue-50 to-indigo-100 flex items-center justify-center relative group overflow-hidden">
                         <div 
@@ -205,7 +275,18 @@ export function HomePage({
 
                   {/* Products 2-3 - Tall (1x2) */}
                   {Array.from({ length: 2 }).map((_, i) => (
-                    <div key={i + 1} className="col-span-1 row-span-2 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div key={i + 1} className="col-span-1 row-span-2 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                      onClick={() => onProductClick?.({ 
+                        id: i + 2, 
+                        name: `Product ${i + 2}`, 
+                        price: 159 + i * 20,
+                        description: "High-quality product designed for modern lifestyle and durability.",
+                        category: "Studio Collection",
+                        stock: "In Stock",
+                        rating: 4.6 + (i * 0.1),
+                        reviews: 89 + (i * 15)
+                      })}
+                    >
                       <div className="h-full flex flex-col">
                         <div className="flex-1 bg-linear-to-tl from-gray-50 to-gray-100 flex items-center justify-center relative group">
                           <svg className="w-24 h-24 text-gray-300 transform group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
@@ -233,7 +314,18 @@ export function HomePage({
 
                   {/* Products 4-7 - Standard (1x1) */}
                   {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i + 4} className="col-span-1 row-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div key={i + 4} className="col-span-1 row-span-1 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+                      onClick={() => onProductClick?.({ 
+                        id: i + 4, 
+                        name: `Product ${i + 4}`, 
+                        price: 129 + i * 15,
+                        description: "Quality product with excellent features for everyday use.",
+                        category: "Standard",
+                        stock: "In Stock",
+                        rating: 4.4 + (i * 0.1),
+                        reviews: 67 + (i * 8)
+                      })}
+                    >
                       <div className="aspect-square bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center relative group">
                         <svg className="w-20 h-20 text-gray-300 transform group-hover:rotate-6 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
@@ -262,7 +354,20 @@ export function HomePage({
               <div className="space-y-8 max-w-5xl mx-auto">
                 {/* Row 1: Image Left, Content Right */}
                 <div className="grid grid-cols-2 gap-8 items-center">
-                  <div className="border rounded-lg overflow-hidden" style={{ borderColor: colors.secondary }}>
+                  <div 
+                    onClick={() => onProductClick?.({ 
+                      id: 1, 
+                      name: "Product Name", 
+                      price: 99.0,
+                      description: "Exquisite craftsmanship meets timeless design. A statement piece for discerning collectors.",
+                      category: "Featured",
+                      stock: "In Stock",
+                      rating: 4.7,
+                      reviews: 98
+                    })}
+                    className="border rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity" 
+                    style={{ borderColor: colors.secondary }}
+                  >
                     <div className="aspect-square bg-gray-100 flex items-center justify-center">
                       <svg className="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
@@ -270,7 +375,20 @@ export function HomePage({
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-normal mb-2" style={{ color: colors.text }}>
+                    <h3 
+                      onClick={() => onProductClick?.({ 
+                        id: 1, 
+                        name: "Product Name", 
+                        price: 99.0,
+                        description: "Exquisite craftsmanship meets timeless design. A statement piece for discerning collectors.",
+                        category: "Featured",
+                        stock: "In Stock",
+                        rating: 4.7,
+                        reviews: 98
+                      })}
+                      className="text-2xl font-normal mb-2 cursor-pointer hover:opacity-70 transition-opacity" 
+                      style={{ color: colors.text }}
+                    >
                       Product Name
                     </h3>
                     <p className="text-sm mb-4" style={{ color: colors.secondary, lineHeight: "1.6" }}>
@@ -298,7 +416,20 @@ export function HomePage({
                 {/* Row 2: Content Left, Image Right */}
                 <div className="grid grid-cols-2 gap-8 items-center">
                   <div>
-                    <h3 className="text-2xl font-normal mb-2" style={{ color: colors.text }}>
+                    <h3 
+                      onClick={() => onProductClick?.({ 
+                        id: 2, 
+                        name: "Product Name", 
+                        price: 99.0,
+                        description: "Exquisite craftsmanship meets timeless design. A statement piece for discerning collectors.",
+                        category: "Collection",
+                        stock: "In Stock",
+                        rating: 4.8,
+                        reviews: 112
+                      })}
+                      className="text-2xl font-normal mb-2 cursor-pointer hover:opacity-70 transition-opacity" 
+                      style={{ color: colors.text }}
+                    >
                       Product Name
                     </h3>
                     <p className="text-sm mb-4" style={{ color: colors.secondary, lineHeight: "1.6" }}>
@@ -308,7 +439,10 @@ export function HomePage({
                       $99.00
                     </p>
                     <button
-                      onClick={() => addToCart({ id: 2, name: "Product Name", price: 99.0 })}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart({ id: 2, name: "Product Name", price: 99.0 });
+                      }}
                       className="px-8 py-2 font-normal transition-opacity hover:opacity-90 border"
                       style={{
                         backgroundColor: "transparent",
@@ -321,7 +455,20 @@ export function HomePage({
                       Add to Cart
                     </button>
                   </div>
-                  <div className="border rounded-lg overflow-hidden" style={{ borderColor: colors.secondary }}>
+                  <div 
+                    onClick={() => onProductClick?.({ 
+                      id: 2, 
+                      name: "Product Name", 
+                      price: 99.0,
+                      description: "Exquisite craftsmanship meets timeless design. A statement piece for discerning collectors.",
+                      category: "Collection",
+                      stock: "In Stock",
+                      rating: 4.8,
+                      reviews: 112
+                    })}
+                    className="border rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity" 
+                    style={{ borderColor: colors.secondary }}
+                  >
                     <div className="aspect-square bg-gray-100 flex items-center justify-center">
                       <svg className="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
@@ -332,7 +479,20 @@ export function HomePage({
 
                 {/* Row 3: Image Left, Content Right */}
                 <div className="grid grid-cols-2 gap-8 items-center">
-                  <div className="border rounded-lg overflow-hidden" style={{ borderColor: colors.secondary }}>
+                  <div 
+                    onClick={() => onProductClick?.({ 
+                      id: 3, 
+                      name: "Product Name", 
+                      price: 99.0,
+                      description: "Exquisite craftsmanship meets timeless design. A statement piece for discerning collectors.",
+                      category: "Signature",
+                      stock: "In Stock",
+                      rating: 4.9,
+                      reviews: 145
+                    })}
+                    className="border rounded-lg overflow-hidden cursor-pointer hover:opacity-80 transition-opacity" 
+                    style={{ borderColor: colors.secondary }}
+                  >
                     <div className="aspect-square bg-gray-100 flex items-center justify-center">
                       <svg className="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
@@ -340,7 +500,20 @@ export function HomePage({
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-normal mb-2" style={{ color: colors.text }}>
+                    <h3 
+                      onClick={() => onProductClick?.({ 
+                        id: 3, 
+                        name: "Product Name", 
+                        price: 99.0,
+                        description: "Exquisite craftsmanship meets timeless design. A statement piece for discerning collectors.",
+                        category: "Signature",
+                        stock: "In Stock",
+                        rating: 4.9,
+                        reviews: 145
+                      })}
+                      className="text-2xl font-normal mb-2 cursor-pointer hover:opacity-70 transition-opacity" 
+                      style={{ color: colors.text }}
+                    >
                       Product Name
                     </h3>
                     <p className="text-sm mb-4" style={{ color: colors.secondary, lineHeight: "1.6" }}>
@@ -371,8 +544,18 @@ export function HomePage({
                 {Array.from({ length: 8 }).map((_, i) => (
                   <div
                     key={i}
-                    className="border rounded-lg p-4 flex gap-4 items-center"
+                    className="border rounded-lg p-4 flex gap-4 items-center cursor-pointer hover:shadow-md transition-shadow"
                     style={{ borderColor: colors.secondary }}
+                    onClick={() => onProductClick?.({ 
+                      id: i + 1, 
+                      name: "Product Name", 
+                      price: 99.0,
+                      description: "High-quality product with excellent features and modern design.",
+                      category: "Collection",
+                      stock: "In Stock",
+                      rating: 4.5 + (i * 0.05),
+                      reviews: 45 + (i * 12)
+                    })}
                   >
                     <div className="w-20 h-20 bg-gray-100 rounded flex items-center justify-center shrink-0">
                       <svg
@@ -410,13 +593,14 @@ export function HomePage({
                       </p>
                     </div>
                     <button
-                      onClick={() =>
+                      onClick={(e) => {
+                        e.stopPropagation();
                         addToCart({
                           id: i + 1,
                           name: "Product Name",
                           price: 99.0,
-                        })
-                      }
+                        });
+                      }}
                       className="px-6 py-2 font-medium transition-opacity hover:opacity-90 shrink-0"
                       style={{
                         backgroundColor: colors.secondary,
@@ -449,8 +633,18 @@ export function HomePage({
                 {Array.from({ length: 8 }).map((_, i) => (
                   <div
                     key={i}
-                    className="border rounded-lg overflow-hidden"
+                    className="border rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
                     style={{ borderColor: colors.secondary }}
+                    onClick={() => onProductClick?.({ 
+                      id: i + 1, 
+                      name: "Product Name", 
+                      price: 99.0,
+                      description: "Discover amazing quality and style with this versatile product designed for your lifestyle.",
+                      category: "Featured",
+                      stock: "In Stock",
+                      rating: 4.5 + (i * 0.05),
+                      reviews: 78 + (i * 15)
+                    })}
                   >
                     <div className="aspect-square bg-gray-100 flex items-center justify-center">
                       <svg
@@ -481,13 +675,14 @@ export function HomePage({
                         $99.00
                       </p>
                       <button
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           addToCart({
                             id: i + 1,
                             name: "Product Name",
                             price: 99.0,
-                          })
-                        }
+                          });
+                        }}
                         className="w-full py-2 font-medium transition-opacity hover:opacity-90"
                         style={{
                           backgroundColor: colors.secondary,
@@ -510,6 +705,7 @@ export function HomePage({
         return (
           <div
             key={section.id}
+            id="about"
             className="px-6 py-16 text-center"
             style={{
               backgroundColor: colors.secondary,

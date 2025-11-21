@@ -34,52 +34,10 @@ export function PreviewFooter({
 }: PreviewFooterProps) {
   return (
     <footer
+      id="contact"
       className="px-6 py-12"
       style={{ backgroundColor: footer.backgroundColor }}
     >
-      {/* Newsletter Section */}
-      {footer.showNewsletter && (
-        <div
-          className="text-center mb-12 pb-12 border-b"
-          style={{ borderColor: colors.secondary }}
-        >
-          <h3
-            className="font-bold mb-2"
-            style={{
-              fontSize: `${typography.headingSize * 0.6}px`,
-              color: colors.text,
-            }}
-          >
-            {footer.newsletterTitle}
-          </h3>
-          <p className="mb-4 text-sm" style={{ color: colors.secondary }}>
-            {footer.newsletterDescription}
-          </p>
-          <div className="flex gap-2 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-2 border rounded text-sm"
-              style={{
-                borderColor: colors.secondary,
-                borderRadius: getButtonRadius(buttonStyle),
-              }}
-            />
-            <button
-              className="px-6 py-2 font-medium text-sm transition-opacity hover:opacity-90"
-              style={{
-                backgroundColor: colors.secondary,
-                color: "#ffffff",
-                borderRadius: getButtonRadius(buttonStyle),
-                fontSize: `${typography.bodySize}px`,
-              }}
-            >
-              Subscribe
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Footer Links */}
       <div
         className="grid gap-8 mb-12"

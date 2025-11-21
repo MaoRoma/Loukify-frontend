@@ -124,9 +124,7 @@ export function CartPage({
                   </div>
                   <div className="flex items-center gap-2 mt-4">
                     <button
-                      onClick={() =>
-                        updateQuantity(item.id, (item.quantity || 1) - 1)
-                      }
+                      onClick={() => updateQuantity(item.id, -1)}
                       className="p-1 border rounded hover:bg-gray-50"
                       style={{ borderColor: colors.secondary }}
                       disabled={(item.quantity || 1) <= 1}
@@ -147,9 +145,7 @@ export function CartPage({
                       {item.quantity || 1}
                     </span>
                     <button
-                      onClick={() =>
-                        updateQuantity(item.id, (item.quantity || 1) + 1)
-                      }
+                      onClick={() => updateQuantity(item.id, 1)}
                       className="p-1 border rounded hover:bg-gray-50"
                       style={{ borderColor: colors.secondary }}
                     >

@@ -1,8 +1,18 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Filter } from "lucide-react";
 
-export function CustomerSearch() {
+interface CustomerSearchProps {
+  onSearch: (query: string) => void;
+}
+
+export function CustomerSearch({ onSearch }: CustomerSearchProps) {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearch(e.target.value);
+  };
+
   return (
     <div className="flex gap-3">
       <div className="relative flex-1">
@@ -10,6 +20,7 @@ export function CustomerSearch() {
         <Input
           placeholder="Search customers by name, email, or location..."
           className="pl-10 bg-card"
+          onChange={handleSearchChange}
         />
       </div>
       <Button variant="outline" className="gap-2 bg-transparent">

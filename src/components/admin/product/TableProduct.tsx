@@ -92,12 +92,27 @@ const Products: Product[] = [
   },
 ];
 
-export function ProductTable() {
+interface ProductTableProps {
+  searchQuery?: string;
+}
+
+export function ProductTable({ searchQuery = "" }: ProductTableProps) {
   const [products, setProducts] = useState<Product[]>(Products);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [deletingProduct, setDeletingProduct] = useState<Product | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  // Filter products based on search query
+  const filteredProducts = products.filter((product) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      product.Product.toLowerCase().includes(query) ||
+      product.category.toLowerCase().includes(query) ||
+      product.price.toLowerCase().includes(query) ||
+      product.stock.toLowerCase().includes(query)
+    );
+  });
 
   const handleEdit = (product: Product) => {
     setEditingProduct({ ...product });
@@ -161,11 +176,18 @@ export function ProductTable() {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
-                  <tr
-                    key={product.Product}
-                    className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
-                  >
+                {filteredProducts.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-muted-foreground">
+                      No products found matching your search.
+                    </td>
+                  </tr>
+                ) : (
+                  filteredProducts.map((product) => (
+                    <tr
+                      key={product.Product}
+                      className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
+                    >
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-3">
                         <div>
@@ -216,7 +238,8 @@ export function ProductTable() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>

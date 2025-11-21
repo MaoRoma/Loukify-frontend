@@ -23,9 +23,8 @@ export function AddProductForm() {
     name: "",
     description: "",
     price: "",
-    stock: "",
     category: "general",
-    status: "active",
+    status: "in-stock",
     sku: "",
     barcode: "",
   });
@@ -81,42 +80,24 @@ export function AddProductForm() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="price" className="text-sm font-medium">
-              Price
-            </Label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                $
-              </span>
-              <Input
-                id="price"
-                type="number"
-                step="0.01"
-                placeholder="0.00"
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
-                }
-                className="pl-7 bg-muted/50"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="stock" className="text-sm font-medium">
-              Stock Quantity
-            </Label>
+        <div className="space-y-2">
+          <Label htmlFor="price" className="text-sm font-medium">
+            Price
+          </Label>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+              $
+            </span>
             <Input
-              id="stock"
+              id="price"
               type="number"
-              placeholder="0"
-              value={formData.stock}
+              step="0.01"
+              placeholder="0.00"
+              value={formData.price}
               onChange={(e) =>
-                setFormData({ ...formData, stock: e.target.value })
+                setFormData({ ...formData, price: e.target.value })
               }
-              className="bg-muted/50"
+              className="pl-7 bg-muted/50"
             />
           </div>
         </div>
@@ -146,7 +127,7 @@ export function AddProductForm() {
 
           <div className="space-y-2">
             <Label htmlFor="status" className="text-sm font-medium">
-              Status
+              Stock Status
             </Label>
             <Select
               value={formData.status}
@@ -155,12 +136,11 @@ export function AddProductForm() {
               }
             >
               <SelectTrigger className="bg-muted/50">
-                <SelectValue placeholder="Select status" />
+                <SelectValue placeholder="Select stock status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="archived">Archived</SelectItem>
+                <SelectItem value="in-stock">In Stock</SelectItem>
+                <SelectItem value="out-of-stock">Out of Stock</SelectItem>
               </SelectContent>
             </Select>
           </div>

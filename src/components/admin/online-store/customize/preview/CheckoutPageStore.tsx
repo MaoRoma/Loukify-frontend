@@ -24,7 +24,7 @@ export function CheckoutPage({
   onBackToCart,
   onConfirmOrder, // Add this parameter
 }: CheckoutPageProps) {
-  const { cartItems, cartTotal } = useCart();
+  const { cartItems, cartTotal, clearCart } = useCart();
 
   return (
     <div className="px-6 py-12">
@@ -226,6 +226,7 @@ export function CheckoutPage({
                 fontSize: `${typography.bodySize}px`,
               }}
               onClick={() => {
+                clearCart(); // Clear cart after order is placed
                 onConfirmOrder?.();
               }}
             >

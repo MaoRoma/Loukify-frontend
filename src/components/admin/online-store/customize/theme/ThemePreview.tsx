@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { CartProvider } from "@/lib/context/CartContext";
+import { WishlistProvider } from "@/lib/context/WishlistContext";
 import { PreviewHeader } from "../preview/PreviewHeader";
 import { PreviewFooter } from "../preview/PreviewFooter";
 import { HomePage } from "../preview/HomePageStore";
 import { CartPage } from "../preview/CartPage";
 import { ConfirmOrder } from "../preview/ConfirmOrder";
 import { CheckoutPage } from "../preview/CheckoutPageStore";
+import { ProductDetailPage } from "../preview/ProductDetailPage";
+import { WishlistPage } from "../preview/WishlistPage";
 import { getViewportWidth } from "@/lib/utils/ThemeHelper";
 import type {
   ThemeColors,
@@ -44,25 +47,41 @@ export function ThemePreview({
   viewMode,
 }: ThemePreviewProps) {
   const [currentPage, setCurrentPage] = useState<PageView>("home");
+  const [selectedProduct, setSelectedProduct] = useState<{
+    id: number;
+    name: string;
+    price: number;
+    description?: string;
+    category?: string;
+    stock?: string;
+    rating?: number;
+    reviews?: number;
+  } | null>(null);
 
   return (
     <CartProvider>
-      <div
-        className="bg-white shadow-2xl transition-all duration-300 relative"
-        style={{
-          width: getViewportWidth(viewMode),
-          maxWidth: "100%",
-          backgroundColor: colors.background,
-          color: colors.text,
-          minHeight: "100vh", // Ensure minimum height
-        }}
-      >
-        <PreviewHeader
-          colors={colors}
-          typography={typography}
-          header={header}
-          onCartClick={() => setCurrentPage("cart")}
-        />
+      <WishlistProvider>
+        <div
+          className="bg-white shadow-2xl transition-all duration-300 relative"
+          style={{
+            width: getViewportWidth(viewMode),
+            maxWidth: "100%",
+            backgroundColor: colors.background,
+            color: colors.text,
+            minHeight: "100vh", // Ensure minimum height
+          }}
+        >
+          <PreviewHeader
+            colors={colors}
+            typography={typography}
+            header={header}
+            onCartClick={() => setCurrentPage("cart")}
+            onWishlistClick={() => setCurrentPage("wishlist")}
+            onProductClick={(product) => {
+              setSelectedProduct(product);
+              setCurrentPage("productDetail");
+            }}
+          />
 
         <div className="min-h-[50vh]">
           {currentPage === "home" && (
@@ -74,6 +93,20 @@ export function ThemePreview({
               buttonStyle={buttonStyle}
               sections={sections}
               viewMode={viewMode}
+              onProductClick={(product) => {
+                setSelectedProduct(product);
+                setCurrentPage("productDetail");
+              }}
+            />
+          )}
+
+          {currentPage === "productDetail" && selectedProduct && (
+            <ProductDetailPage
+              colors={colors}
+              typography={typography}
+              buttonStyle={buttonStyle}
+              product={selectedProduct}
+              onBack={() => setCurrentPage("home")}
             />
           )}
 
@@ -97,6 +130,19 @@ export function ThemePreview({
             />
           )}
 
+          {currentPage === "wishlist" && (
+            <WishlistPage
+              colors={colors}
+              typography={typography}
+              buttonStyle={buttonStyle}
+              onBack={() => setCurrentPage("home")}
+              onProductClick={(product) => {
+                setSelectedProduct(product);
+                setCurrentPage("productDetail");
+              }}
+            />
+          )}
+
           {currentPage === "confirmOrder" && (
             <ConfirmOrder
               colors={colors}
@@ -115,6 +161,7 @@ export function ThemePreview({
           viewMode={viewMode}
         />
       </div>
+      </WishlistProvider>
     </CartProvider>
   );
 }

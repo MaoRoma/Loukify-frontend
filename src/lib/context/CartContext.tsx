@@ -8,6 +8,7 @@ interface CartContextType {
   addToCart: (product: { id: number; name: string; price: number }) => void;
   updateQuantity: (id: number, change: number) => void;
   removeFromCart: (id: number) => void;
+  clearCart: () => void;
   cartSubtotal: number;
   cartTotal: number;
   cartItemCount: number;
@@ -50,12 +51,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   const cartSubtotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
   const cartTotal = cartSubtotal;
-  const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  // Count unique product types, not total quantity
+  const cartItemCount = cartItems.length;
 
   return (
     <CartContext.Provider
@@ -64,6 +70,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         addToCart,
         updateQuantity,
         removeFromCart,
+        clearCart,
         cartSubtotal,
         cartTotal,
         cartItemCount,
