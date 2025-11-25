@@ -31,18 +31,18 @@ export function SignupForm() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-[#2a2a2a] mb-2">
+      <h2 className="text-xl sm:text-2xl font-semibold text-[#2a2a2a] mb-2">
         Create your account
       </h2>
-      <p className="text-[#6a6a6a] text-sm mb-6">
+      <p className="text-[#6a6a6a] text-xs sm:text-sm mb-4 sm:mb-6">
         Start building your online store today
       </p>
 
-      <form className="space-y-5" onSubmit={handleSubmit}>
+      <form className="space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
         <div>
           <Label
             htmlFor="fullname"
-            className="text-[#2a2a2a] font-semibold mb-2 block"
+            className="text-[#2a2a2a] font-semibold mb-2 block text-sm sm:text-base"
           >
             Full Name
           </Label>
@@ -50,7 +50,7 @@ export function SignupForm() {
             id="fullname"
             type="text"
             placeholder="Enter your full name"
-            className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            className="h-10 sm:h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a] text-sm sm:text-base"
             required
           />
         </div>
@@ -58,7 +58,7 @@ export function SignupForm() {
         <div>
           <Label
             htmlFor="signup-email"
-            className="text-[#2a2a2a] font-semibold mb-2 block"
+            className="text-[#2a2a2a] font-semibold mb-2 block text-sm sm:text-base"
           >
             Email
           </Label>
@@ -66,7 +66,7 @@ export function SignupForm() {
             id="signup-email"
             type="email"
             placeholder="Enter your email"
-            className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            className="h-10 sm:h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a] text-sm sm:text-base"
             required
           />
         </div>
@@ -74,7 +74,7 @@ export function SignupForm() {
         <div>
           <Label
             htmlFor="signup-password"
-            className="text-[#2a2a2a] font-semibold mb-2 block"
+            className="text-[#2a2a2a] font-semibold mb-2 block text-sm sm:text-base"
           >
             Password
           </Label>
@@ -82,7 +82,7 @@ export function SignupForm() {
             id="signup-password"
             type="password"
             placeholder="Create a Password"
-            className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            className="h-10 sm:h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a] text-sm sm:text-base"
             required
           />
         </div>
@@ -90,7 +90,7 @@ export function SignupForm() {
         <div>
           <Label
             htmlFor="confirm-password"
-            className="text-[#2a2a2a] font-semibold mb-2 block"
+            className="text-[#2a2a2a] font-semibold mb-2 block text-sm sm:text-base"
           >
             Confirm Password
           </Label>
@@ -98,7 +98,7 @@ export function SignupForm() {
             id="confirm-password"
             type="password"
             placeholder="Confirm your password"
-            className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            className="h-10 sm:h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a] text-sm sm:text-base"
             required
           />
         </div>
@@ -107,7 +107,7 @@ export function SignupForm() {
           <Checkbox id="terms" className="mt-0.5" required />
           <label
             htmlFor="terms"
-            className="text-sm text-[#4a4a4a] leading-tight cursor-pointer"
+            className="text-xs sm:text-sm text-[#4a4a4a] leading-tight cursor-pointer"
           >
             I agree to the Terms of Service and Privacy Policy
           </label>
@@ -116,7 +116,7 @@ export function SignupForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-base disabled:opacity-50"
+          className="w-full h-10 sm:h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-sm sm:text-base disabled:opacity-50"
         >
           {isLoading ? "Creating account..." : "Sign up"}
         </Button>

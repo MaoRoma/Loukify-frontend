@@ -14,10 +14,16 @@ import {
   Store,
   Plus,
   HelpCircle,
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
 
 interface NavItem {
   label: string;
@@ -43,7 +49,7 @@ const salesChannels: NavItem[] = [
   },
 ];
 
-export function Sidebar() {
+export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([
     "Online Store",
   ]);
@@ -57,8 +63,31 @@ export function Sidebar() {
     );
   };
 
+  const handleLinkClick = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <aside className="fixed left-0 top-14 w-60 bg-white text-gray-900 flex flex-col h-[calc(100vh-3.5rem)] border-r border-gray-200 z-40">
+    <aside
+      className={cn(
+        "fixed left-0 top-14 w-60 bg-white text-gray-900 flex flex-col h-[calc(100vh-3.5rem)] border-r border-gray-200 z-40 transition-transform duration-300 ease-in-out",
+        isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+      )}
+    >
+      {/* Mobile Close Button */}
+      <div className="lg:hidden flex justify-end p-3 border-b border-gray-200">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onClose}
+          className="text-gray-700"
+        >
+          <X className="w-5 h-5" />
+        </Button>
+      </div>
+
       <nav className="flex-1 overflow-y-auto px-3 pt-4">
         <div className="space-y-1">
           {navItems.map((item) => (
@@ -102,6 +131,7 @@ export function Sidebar() {
               ) : (
                 <Link
                   href={item.href!}
+                  onClick={handleLinkClick}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-colors",
                     pathname === item.href
@@ -126,6 +156,7 @@ export function Sidebar() {
               <div key={item.label}>
                 <Link
                   href={item.href!}
+                  onClick={handleLinkClick}
                   className={cn(
                     "w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-colors",
                     pathname === item.href
@@ -144,6 +175,7 @@ export function Sidebar() {
                       <Link
                         key={child.label}
                         href={child.href}
+                        onClick={handleLinkClick}
                         className="block px-3 py-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors"
                       >
                         {child.label}

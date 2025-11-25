@@ -33,17 +33,17 @@ export function LoginForm() {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-[#2a2a2a] mb-2">
+      <h2 className="text-xl sm:text-2xl font-semibold text-[#2a2a2a] mb-2">
         Log in to your account
       </h2>
-      <p className="text-[#6a6a6a] text-sm mb-6">
+      <p className="text-[#6a6a6a] text-xs sm:text-sm mb-4 sm:mb-6">
         Enter your email and password to access your dashboard
       </p>
-      <form className="space-y-5" onSubmit={handleSubmit}>
+      <form className="space-y-4 sm:space-y-5" onSubmit={handleSubmit}>
         <div>
           <Label
             htmlFor="login-email"
-            className="text-[#2a2a2a] font-semibold mb-2 block"
+            className="text-[#2a2a2a] font-semibold mb-2 block text-sm sm:text-base"
           >
             Email
           </Label>
@@ -51,7 +51,7 @@ export function LoginForm() {
             id="login-email"
             type="email"
             placeholder="Enter your email"
-            className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            className="h-10 sm:h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a] text-sm sm:text-base"
             required
           />
         </div>
@@ -59,7 +59,7 @@ export function LoginForm() {
         <div>
           <Label
             htmlFor="login-password"
-            className="text-[#2a2a2a] font-semibold mb-2 block"
+            className="text-[#2a2a2a] font-semibold mb-2 block text-sm sm:text-base"
           >
             Password
           </Label>
@@ -67,24 +67,24 @@ export function LoginForm() {
             id="login-password"
             type="password"
             placeholder="Enter your password"
-            className="h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a]"
+            className="h-10 sm:h-12 border-[#e0e0e0] bg-[#fafafa] placeholder:text-[#9a9a9a] text-sm sm:text-base"
             required
           />
         </div>
 
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pt-2 gap-2 sm:gap-0">
           <div className="flex items-center gap-2">
             <Checkbox id="remember" />
             <label
               htmlFor="remember"
-              className="text-sm text-[#4a4a4a] cursor-pointer"
+              className="text-xs sm:text-sm text-[#4a4a4a] cursor-pointer"
             >
               Remember me
             </label>
           </div>
           <Link
             href="/auth/forgotpassword"
-            className="text-sm text-[#6a6a6a] hover:text-[#2a2a2a] transition-colors"
+            className="text-xs sm:text-sm text-[#6a6a6a] hover:text-[#2a2a2a] transition-colors"
           >
             Forgot password?
           </Link>
@@ -93,7 +93,7 @@ export function LoginForm() {
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-base disabled:opacity-50"
+          className="w-full h-10 sm:h-12 bg-[#3a3a3a] hover:bg-[#2a2a2a] text-white font-medium text-sm sm:text-base disabled:opacity-50"
         >
           {isLoading ? "Logging in..." : "Log in"}
         </Button>
@@ -112,7 +112,7 @@ export function LoginForm() {
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
           <Button
             variant="outline"
-            className="w-full sm:flex-1 h-11 sm:h-12 border-[#e0e0e0] hover:bg-[#f5f5f5] bg-transparent text-sm sm:text-base"
+            className="w-full sm:flex-1 h-10 sm:h-11 md:h-12 border-[#e0e0e0] hover:bg-[#f5f5f5] bg-transparent text-sm sm:text-base"
           >
             <FaGoogle />
             <span className="ml-2">Google</span>

@@ -3,17 +3,17 @@ import { ShoppingCart } from "lucide-react";
 const Footer = () => {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-10 md:mb-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <img
                 src="/image/loukify.png"
                 alt="Loukify Logo"
-                className="h-15 w-15"
+                className="h-12 w-12 sm:h-15 sm:w-15"
               />
-              <span className="font-bold text-3xl">Loukify</span>
+              <span className="font-bold text-2xl sm:text-3xl">Loukify</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               The easiest way to create and manage your online store in
@@ -23,8 +23,10 @@ const Footer = () => {
 
           {/* Product */}
           <div>
-            <h3 className="font-semibold mb-4">Product</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">
+              Product
+            </h3>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <a
                   href="#"
@@ -62,8 +64,10 @@ const Footer = () => {
 
           {/* Support */}
           <div>
-            <h3 className="font-semibold mb-4">Support</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">
+              Support
+            </h3>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <a
                   href="#"
@@ -101,8 +105,10 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">
+              Company
+            </h3>
+            <ul className="space-y-2 sm:space-y-3">
               <li>
                 <a
                   href="#"
@@ -140,26 +146,26 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
+        <div className="pt-6 sm:pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
+          <p className="text-xs sm:text-sm text-muted-foreground text-center md:text-left">
             © 2025 Loukify. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             <a
               href="#"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Privacy Policy
             </a>
             <a
               href="#"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Terms of Service
             </a>
             <a
               href="#"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Contact
             </a>

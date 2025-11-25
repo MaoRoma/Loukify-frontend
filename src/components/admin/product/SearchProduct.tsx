@@ -14,16 +14,19 @@ export function ProductSearch({ onSearch }: ProductSearchProps) {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex flex-col sm:flex-row gap-3">
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
           placeholder="Search products by name, category, or price..."
-          className="pl-10 bg-card"
+          className="pl-10 bg-card text-sm"
           onChange={handleSearchChange}
         />
       </div>
-      <Button variant="outline" className="gap-2 bg-transparent">
+      <Button
+        variant="outline"
+        className="gap-2 bg-transparent text-sm sm:w-auto w-full"
+      >
         <Filter className="w-4 h-4" />
         Filter
       </Button>

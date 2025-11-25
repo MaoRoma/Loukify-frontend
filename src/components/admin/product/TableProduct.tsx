@@ -150,11 +150,69 @@ export function ProductTable({ searchQuery = "" }: ProductTableProps) {
 
   return (
     <>
-      <Card className="overflow-hidden flex">
-        <div className="p-6">
-          <h2 className="text-lg font-semibold mb-4">All Products</h2>
+      <Card className="overflow-hidden flex flex-col">
+        <div className="p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold mb-4">
+            All Products
+          </h2>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Card View */}
+          <div className="block md:hidden space-y-3">
+            {filteredProducts.length === 0 ? (
+              <div className="py-8 text-center text-sm text-muted-foreground">
+                No products found matching your search.
+              </div>
+            ) : (
+              filteredProducts.map((product) => (
+                <Card key={product.Product} className="p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <div className="font-medium text-sm text-foreground mb-1">
+                        {product.Product}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {product.category}
+                      </div>
+                    </div>
+                    <div className="text-sm font-semibold text-foreground">
+                      {product.price}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center mb-3 text-xs">
+                    <span className="text-muted-foreground">
+                      Stock: {product.stock}
+                    </span>
+                    <span className="text-muted-foreground">
+                      Orders: {product.orders}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(product)}
+                      className="flex-1 text-xs"
+                    >
+                      <Edit className="w-3 h-3 mr-1" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteClick(product)}
+                      className="flex-1 text-xs text-destructive hover:text-destructive"
+                    >
+                      <Trash2 className="w-3 h-3 mr-1" />
+                      Delete
+                    </Button>
+                  </div>
+                </Card>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
@@ -178,7 +236,10 @@ export function ProductTable({ searchQuery = "" }: ProductTableProps) {
               <tbody>
                 {filteredProducts.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-muted-foreground">
+                    <td
+                      colSpan={5}
+                      className="py-8 text-center text-muted-foreground"
+                    >
                       No products found matching your search.
                     </td>
                   </tr>
@@ -188,56 +249,56 @@ export function ProductTable({ searchQuery = "" }: ProductTableProps) {
                       key={product.Product}
                       className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
                     >
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <div className="font-medium text-foreground">
-                            {product.Product}
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <div>
+                            <div className="font-medium text-foreground">
+                              {product.Product}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          {product.category}
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            {product.category}
+                          </div>
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    <td className="py-4 px-4">
-                      <div className="font-medium text-foreground">
-                        {product.price}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          {product.stock}
+                      <td className="py-4 px-4">
+                        <div className="font-medium text-foreground">
+                          {product.price}
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="border border-gray-400 h-8 w-8"
-                          onClick={() => handleEdit(product)}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="border border-gray-400 text-red-500 h-8 w-8"
-                          onClick={() => handleDeleteClick(product)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            {product.stock}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="border border-gray-400 h-8 w-8"
+                            onClick={() => handleEdit(product)}
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="border border-gray-400 text-red-500 h-8 w-8"
+                            onClick={() => handleDeleteClick(product)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
                   ))
                 )}
               </tbody>
