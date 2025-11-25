@@ -14,16 +14,19 @@ export function CustomerSearch({ onSearch }: CustomerSearchProps) {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex flex-col sm:flex-row gap-3">
       <div className="relative flex-1">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
           placeholder="Search customers by name, email, or location..."
-          className="pl-10 bg-card"
+          className="pl-10 bg-card h-10 sm:h-11"
           onChange={handleSearchChange}
         />
       </div>
-      <Button variant="outline" className="gap-2 bg-transparent">
+      <Button
+        variant="outline"
+        className="gap-2 bg-transparent w-full sm:w-auto"
+      >
         <Filter className="w-4 h-4" />
         Filter
       </Button>
