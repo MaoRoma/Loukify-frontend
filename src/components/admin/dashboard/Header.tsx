@@ -1,6 +1,13 @@
 "use client";
 
-import { Search, Bell, Package, ShoppingCart, User, TrendingUp } from "lucide-react";
+import {
+  Search,
+  Bell,
+  Package,
+  ShoppingCart,
+  User,
+  TrendingUp,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,30 +27,118 @@ interface SearchResult {
 // Mock data - In production, this would come from your API/database
 const allData = {
   products: [
-    { id: "1", name: "Product 1", category: "Category 1", price: "$217.50", stock: "32" },
-    { id: "2", name: "Product 2", category: "Category 2", price: "$85.00", stock: "32" },
-    { id: "3", name: "Product 3", category: "Category 3", price: "$425.00", stock: "32" },
-    { id: "4", name: "Product 4", category: "Category 4", price: "$32.00", stock: "32" },
+    {
+      id: "1",
+      name: "Product 1",
+      category: "Category 1",
+      price: "$217.50",
+      stock: "32",
+    },
+    {
+      id: "2",
+      name: "Product 2",
+      category: "Category 2",
+      price: "$85.00",
+      stock: "32",
+    },
+    {
+      id: "3",
+      name: "Product 3",
+      category: "Category 3",
+      price: "$425.00",
+      stock: "32",
+    },
+    {
+      id: "4",
+      name: "Product 4",
+      category: "Category 4",
+      price: "$32.00",
+      stock: "32",
+    },
   ],
   orders: [
-    { id: "#ORD-001", customer: "sophea@example.com", status: "Pending", total: "$217.50" },
-    { id: "#ORD-002", customer: "virak@example.com", status: "Pending", total: "$85.00" },
-    { id: "#ORD-003", customer: "channary@example.com", status: "Completed", total: "$425.00" },
-    { id: "#ORD-004", customer: "dara@example.com", status: "Completed", total: "$32.00" },
+    {
+      id: "#ORD-001",
+      customer: "sophea@example.com",
+      status: "Pending",
+      total: "$217.50",
+    },
+    {
+      id: "#ORD-002",
+      customer: "virak@example.com",
+      status: "Pending",
+      total: "$85.00",
+    },
+    {
+      id: "#ORD-003",
+      customer: "channary@example.com",
+      status: "Completed",
+      total: "$425.00",
+    },
+    {
+      id: "#ORD-004",
+      customer: "dara@example.com",
+      status: "Completed",
+      total: "$32.00",
+    },
   ],
   customers: [
-    { id: "1", name: "Sophea Chen", email: "sophea@example.com", location: "Phnom Penh" },
-    { id: "2", name: "Virak Phan", email: "virak@example.com", location: "Siem Reap" },
-    { id: "3", name: "Channary Lim", email: "channary@example.com", location: "Battambang" },
-    { id: "4", name: "Dara Sok", email: "dara@example.com", location: "Phnom Penh" },
+    {
+      id: "1",
+      name: "Sophea Chen",
+      email: "sophea@example.com",
+      location: "Phnom Penh",
+    },
+    {
+      id: "2",
+      name: "Virak Phan",
+      email: "virak@example.com",
+      location: "Siem Reap",
+    },
+    {
+      id: "3",
+      name: "Channary Lim",
+      email: "channary@example.com",
+      location: "Battambang",
+    },
+    {
+      id: "4",
+      name: "Dara Sok",
+      email: "dara@example.com",
+      location: "Phnom Penh",
+    },
   ],
   pages: [
-    { name: "Dashboard", link: "/admin/dashboard", keywords: ["home", "overview", "stats"] },
-    { name: "Products", link: "/admin/product", keywords: ["inventory", "items", "catalog"] },
-    { name: "Orders", link: "/admin/order", keywords: ["sales", "purchases", "transactions"] },
-    { name: "Customers", link: "/admin/customer", keywords: ["users", "clients", "buyers"] },
-    { name: "Analytics", link: "/admin/analytic", keywords: ["reports", "insights", "data"] },
-    { name: "Online Store", link: "/admin/online-store", keywords: ["shop", "store", "website"] },
+    {
+      name: "Dashboard",
+      link: "/admin/dashboard",
+      keywords: ["home", "overview", "stats"],
+    },
+    {
+      name: "Products",
+      link: "/admin/product",
+      keywords: ["inventory", "items", "catalog"],
+    },
+    {
+      name: "Orders",
+      link: "/admin/order",
+      keywords: ["sales", "purchases", "transactions"],
+    },
+    {
+      name: "Customers",
+      link: "/admin/customer",
+      keywords: ["users", "clients", "buyers"],
+    },
+    {
+      name: "Analytics",
+      link: "/admin/analytic",
+      keywords: ["reports", "insights", "data"],
+    },
+    {
+      name: "Online Store",
+      link: "/admin/online-store",
+      keywords: ["shop", "store", "website"],
+    },
   ],
 };
 
@@ -53,9 +148,19 @@ export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
+  // Mock seller profile data
+  const sellerProfile = {
+    name: "seller",
+    email: "user@gmail.com",
+    initials: "SD",
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
         setIsSearchOpen(false);
       }
     };
@@ -81,7 +186,8 @@ export function Header() {
       const categoryMatch = product.category.toLowerCase().includes(query);
       const priceMatch = product.price.toLowerCase().includes(query);
 
-      if (nameMatch) priority = product.name.toLowerCase().startsWith(query) ? 1 : 2;
+      if (nameMatch)
+        priority = product.name.toLowerCase().startsWith(query) ? 1 : 2;
       else if (categoryMatch) priority = 3;
       else if (priceMatch) priority = 4;
       else return;
@@ -125,7 +231,8 @@ export function Header() {
       const emailMatch = customer.email.toLowerCase().includes(query);
       const locationMatch = customer.location.toLowerCase().includes(query);
 
-      if (nameMatch) priority = customer.name.toLowerCase().startsWith(query) ? 3 : 4;
+      if (nameMatch)
+        priority = customer.name.toLowerCase().startsWith(query) ? 3 : 4;
       else if (emailMatch) priority = 5;
       else if (locationMatch) priority = 6;
       else return;
@@ -143,7 +250,9 @@ export function Header() {
     // Search Pages (Priority 6-7)
     allData.pages.forEach((page) => {
       const nameMatch = page.name.toLowerCase().includes(query);
-      const keywordMatch = page.keywords.some((keyword) => keyword.includes(query));
+      const keywordMatch = page.keywords.some((keyword) =>
+        keyword.includes(query)
+      );
 
       if (nameMatch || keywordMatch) {
         results.push({
@@ -235,7 +344,9 @@ export function Header() {
                   }}
                   className="flex items-start gap-3 px-3 py-2 rounded-md hover:bg-muted transition-colors cursor-pointer"
                 >
-                  <div className={`mt-0.5 ${getCategoryColor(result.category)}`}>
+                  <div
+                    className={`mt-0.5 ${getCategoryColor(result.category)}`}
+                  >
                     {getCategoryIcon(result.category)}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -263,10 +374,17 @@ export function Header() {
         <div className="flex items-center gap-2">
           <Avatar className="w-8 h-8">
             <AvatarFallback className="bg-card text-primary text-sm">
-              A
+              {sellerProfile.initials}
             </AvatarFallback>
           </Avatar>
-          <span className="text-card font-medium">sellerds</span>
+          <div className="flex flex-col">
+            <span className="text-card font-medium text-sm leading-tight">
+              {sellerProfile.name}
+            </span>
+            <span className="text-card/70 text-xs leading-tight">
+              {sellerProfile.email}
+            </span>
+          </div>
         </div>
       </div>
     </header>
