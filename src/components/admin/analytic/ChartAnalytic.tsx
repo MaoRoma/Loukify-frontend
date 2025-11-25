@@ -36,12 +36,17 @@ const chartConfig = {
 export function SaleOverview() {
   return (
     <Card className="">
-      <CardHeader>
-        <CardTitle>Sales Overview</CardTitle>
-        <CardDescription>Monthly sales performance</CardDescription>
+      <CardHeader className="p-4 sm:p-6">
+        <CardTitle className="text-base sm:text-lg">Sales Overview</CardTitle>
+        <CardDescription className="text-xs sm:text-sm">
+          Monthly sales performance
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="p-4 sm:p-6 pt-0">
+        <ChartContainer
+          config={chartConfig}
+          className="h-[250px] sm:h-[300px] w-full"
+        >
           <LineChart
             accessibilityLayer
             data={chartData}
@@ -61,7 +66,7 @@ export function SaleOverview() {
               axisLine={false}
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
-              tick={{ fill: "#6b7280" }}
+              tick={{ fill: "#6b7280", fontSize: 12 }}
             />
             <ChartTooltip
               cursor={false}
