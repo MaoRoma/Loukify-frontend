@@ -51,7 +51,8 @@ export function ThemeTab({
   themeId,
 }: ThemeTabProps) {
   // Check if current theme should hide layout controls
-  const shouldHideLayoutControls = themeId && ['sense', 'craft', 'studio'].includes(themeId);
+  const shouldHideLayoutControls =
+    themeId && ["sense", "craft", "studio"].includes(themeId);
   const handleFontChange = (
     fontType: "headingFont" | "bodyFont",
     fontValue: string
@@ -70,8 +71,10 @@ export function ThemeTab({
     <>
       {/* Colors */}
       <div>
-        <h3 className="font-semibold text-sm mb-3">Colors</h3>
-        <div className="space-y-3">
+        <h3 className="font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
+          Colors
+        </h3>
+        <div className="space-y-2 sm:space-y-3">
           <div>
             <Label className="text-xs text-muted-foreground">
               Primary Color
@@ -83,7 +86,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, primary: e.target.value })
                 }
-                className="w-10 h-10 p-1 cursor-pointer"
+                className="w-8 h-8 sm:w-10 sm:h-10 p-1 cursor-pointer"
               />
               <Input
                 type="text"
@@ -91,7 +94,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, primary: e.target.value })
                 }
-                className="flex-1 text-sm"
+                className="flex-1 text-xs sm:text-sm"
               />
             </div>
           </div>
@@ -107,7 +110,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, secondary: e.target.value })
                 }
-                className="w-10 h-10 p-1 cursor-pointer"
+                className="w-8 h-8 sm:w-10 sm:h-10 p-1 cursor-pointer"
               />
               <Input
                 type="text"
@@ -115,7 +118,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, secondary: e.target.value })
                 }
-                className="flex-1 text-sm"
+                className="flex-1 text-xs sm:text-sm"
               />
             </div>
           </div>
@@ -131,7 +134,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, accent: e.target.value })
                 }
-                className="w-10 h-10 p-1 cursor-pointer"
+                className="w-8 h-8 sm:w-10 sm:h-10 p-1 cursor-pointer"
               />
               <Input
                 type="text"
@@ -139,7 +142,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, accent: e.target.value })
                 }
-                className="flex-1 text-sm"
+                className="flex-1 text-xs sm:text-sm"
               />
             </div>
           </div>
@@ -155,7 +158,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, background: e.target.value })
                 }
-                className="w-10 h-10 p-1 cursor-pointer"
+                className="w-8 h-8 sm:w-10 sm:h-10 p-1 cursor-pointer"
               />
               <Input
                 type="text"
@@ -163,7 +166,7 @@ export function ThemeTab({
                 onChange={(e) =>
                   setColors({ ...colors, background: e.target.value })
                 }
-                className="flex-1 text-sm"
+                className="flex-1 text-xs sm:text-sm"
               />
             </div>
           </div>
@@ -175,13 +178,13 @@ export function ThemeTab({
                 type="color"
                 value={colors.text}
                 onChange={(e) => setColors({ ...colors, text: e.target.value })}
-                className="w-10 h-10 p-1 cursor-pointer"
+                className="w-8 h-8 sm:w-10 sm:h-10 p-1 cursor-pointer"
               />
               <Input
                 type="text"
                 value={colors.text}
                 onChange={(e) => setColors({ ...colors, text: e.target.value })}
-                className="flex-1 text-sm"
+                className="flex-1 text-xs sm:text-sm"
               />
             </div>
           </div>
@@ -190,8 +193,10 @@ export function ThemeTab({
 
       {/* Typography */}
       <div>
-        <h3 className="font-semibold text-sm mb-3">Typography</h3>
-        <div className="space-y-4">
+        <h3 className="font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
+          Typography
+        </h3>
+        <div className="space-y-3 sm:space-y-4">
           <div>
             <Label className="text-xs text-muted-foreground">
               Heading Font
@@ -200,7 +205,7 @@ export function ThemeTab({
               value={typography.headingFont}
               onValueChange={(value) => handleFontChange("headingFont", value)}
             >
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="mt-1 text-xs sm:text-sm">
                 <SelectValue placeholder="Select heading font" />
               </SelectTrigger>
               <SelectContent>
@@ -209,6 +214,7 @@ export function ThemeTab({
                     key={font.value}
                     value={font.value}
                     style={{ fontFamily: `'${font.value}', sans-serif` }}
+                    className="text-xs sm:text-sm"
                   >
                     {font.label}
                   </SelectItem>
@@ -223,7 +229,7 @@ export function ThemeTab({
               value={typography.bodyFont}
               onValueChange={(value) => handleFontChange("bodyFont", value)}
             >
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="mt-1 text-xs sm:text-sm">
                 <SelectValue placeholder="Select body font" />
               </SelectTrigger>
               <SelectContent>
@@ -232,6 +238,7 @@ export function ThemeTab({
                     key={font.value}
                     value={font.value}
                     style={{ fontFamily: `'${font.value}', sans-serif` }}
+                    className="text-xs sm:text-sm"
                   >
                     {font.label}
                   </SelectItem>
@@ -281,8 +288,10 @@ export function ThemeTab({
       {/* Layout Style - Only show for Dawn theme */}
       {!shouldHideLayoutControls && (
         <div>
-          <h3 className="font-semibold text-sm mb-3">Layout Style</h3>
-          <div className="space-y-4">
+          <h3 className="font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
+            Layout Style
+          </h3>
+          <div className="space-y-3 sm:space-y-4">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <Label className="text-xs text-muted-foreground">
@@ -312,21 +321,21 @@ export function ThemeTab({
               <Label className="text-xs text-muted-foreground mb-2 block">
                 Card Style
               </Label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 {/* Minimal Style */}
                 <button
                   onClick={() => setLayout({ ...layout, cardStyle: "minimal" })}
-                  className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+                  className={`p-2 sm:p-3 border rounded-lg flex flex-col items-center gap-1 sm:gap-2 transition-colors ${
                     layout.cardStyle === "minimal"
                       ? "border-foreground bg-foreground/5"
                       : "border-border hover:border-foreground/50"
                   }`}
                 >
-                  <div className="w-full space-y-2">
+                  <div className="w-full space-y-1 sm:space-y-2">
                     {/* Product image placeholder */}
-                    <div className="w-full h-12 bg-gray-200 rounded flex items-center justify-center">
+                    <div className="w-full h-10 sm:h-12 bg-gray-200 rounded flex items-center justify-center">
                       <svg
-                        className="w-6 h-6 text-gray-400"
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-gray-400"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -335,9 +344,9 @@ export function ThemeTab({
                     </div>
                     {/* Product info */}
                     <div className="space-y-1">
-                      <div className="h-2 bg-gray-300 rounded w-3/4"></div>
-                      <div className="h-2 bg-gray-300 rounded w-1/2"></div>
-                      <div className="h-6 bg-gray-400 rounded mt-2"></div>
+                      <div className="h-1.5 sm:h-2 bg-gray-300 rounded w-3/4"></div>
+                      <div className="h-1.5 sm:h-2 bg-gray-300 rounded w-1/2"></div>
+                      <div className="h-4 sm:h-6 bg-gray-400 rounded mt-1 sm:mt-2"></div>
                     </div>
                   </div>
                   <span className="text-xs">Minimal</span>
@@ -346,18 +355,18 @@ export function ThemeTab({
                 {/* Ordered/List Style */}
                 <button
                   onClick={() => setLayout({ ...layout, cardStyle: "ordered" })}
-                  className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+                  className={`p-2 sm:p-3 border rounded-lg flex flex-col items-center gap-1 sm:gap-2 transition-colors ${
                     layout.cardStyle === "ordered"
                       ? "border-foreground bg-foreground/5"
                       : "border-border hover:border-foreground/50"
                   }`}
                 >
-                  <div className="w-full space-y-2">
+                  <div className="w-full space-y-1 sm:space-y-2">
                     {/* Horizontal layout */}
-                    <div className="flex gap-2 p-2 border border-gray-200 rounded">
-                      <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center shrink-0">
+                    <div className="flex gap-1 sm:gap-2 p-1.5 sm:p-2 border border-gray-200 rounded">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded flex items-center justify-center shrink-0">
                         <svg
-                          className="w-4 h-4 text-gray-400"
+                          className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -368,13 +377,13 @@ export function ThemeTab({
                         <div className="h-1.5 bg-gray-300 rounded w-full"></div>
                         <div className="h-1.5 bg-gray-300 rounded w-2/3"></div>
                       </div>
-                      <div className="w-6 h-4 bg-gray-400 rounded"></div>
+                      <div className="w-5 h-3 sm:w-6 sm:h-4 bg-gray-400 rounded"></div>
                     </div>
                     {/* Repeat for second item */}
-                    <div className="flex gap-2 p-2 border border-gray-200 rounded">
-                      <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center shrink-0">
+                    <div className="flex gap-1 sm:gap-2 p-1.5 sm:p-2 border border-gray-200 rounded">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-200 rounded flex items-center justify-center shrink-0">
                         <svg
-                          className="w-4 h-4 text-gray-400"
+                          className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -385,7 +394,7 @@ export function ThemeTab({
                         <div className="h-1.5 bg-gray-300 rounded w-full"></div>
                         <div className="h-1.5 bg-gray-300 rounded w-2/3"></div>
                       </div>
-                      <div className="w-6 h-4 bg-gray-400 rounded"></div>
+                      <div className="w-5 h-3 sm:w-6 sm:h-4 bg-gray-400 rounded"></div>
                     </div>
                   </div>
                   <span className="text-xs">Ordered</span>
@@ -416,43 +425,45 @@ export function ThemeTab({
 
       {/* Buttons */}
       <div>
-        <h3 className="font-semibold text-sm mb-3">Buttons</h3>
+        <h3 className="font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
+          Buttons
+        </h3>
         <div>
           <Label className="text-xs text-muted-foreground mb-2 block">
             Style
           </Label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
             <button
               onClick={() => setButtonStyle("square")}
-              className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+              className={`p-2 sm:p-3 border rounded-lg flex flex-col items-center gap-1 sm:gap-2 transition-colors ${
                 buttonStyle === "square"
                   ? "border-foreground bg-foreground/5"
                   : "border-border hover:border-foreground/50"
               }`}
             >
-              <div className="w-full h-8 bg-foreground rounded-none" />
+              <div className="w-full h-6 sm:h-8 bg-foreground rounded-none" />
               <span className="text-xs">Square</span>
             </button>
             <button
               onClick={() => setButtonStyle("rounded")}
-              className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+              className={`p-2 sm:p-3 border rounded-lg flex flex-col items-center gap-1 sm:gap-2 transition-colors ${
                 buttonStyle === "rounded"
                   ? "border-foreground bg-foreground/5"
                   : "border-border hover:border-foreground/50"
               }`}
             >
-              <div className="w-full h-8 bg-foreground rounded-md" />
+              <div className="w-full h-6 sm:h-8 bg-foreground rounded-md" />
               <span className="text-xs">Rounded</span>
             </button>
             <button
               onClick={() => setButtonStyle("pill")}
-              className={`p-3 border rounded-lg flex flex-col items-center gap-2 transition-colors ${
+              className={`p-2 sm:p-3 border rounded-lg flex flex-col items-center gap-1 sm:gap-2 transition-colors ${
                 buttonStyle === "pill"
                   ? "border-foreground bg-foreground/5"
                   : "border-border hover:border-foreground/50"
               }`}
             >
-              <div className="w-full h-8 bg-foreground rounded-full" />
+              <div className="w-full h-6 sm:h-8 bg-foreground rounded-full" />
               <span className="text-xs">Pill</span>
             </button>
           </div>
