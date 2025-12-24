@@ -1,12 +1,24 @@
 "use client";
 
-import { Search, Bell, Package, ShoppingCart, User, TrendingUp } from "lucide-react";
+import {
+  Search,
+  Bell,
+  Package,
+  ShoppingCart,
+  User,
+  TrendingUp,
+  Menu,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
+
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
 
 interface SearchResult {
   id: string;
@@ -20,42 +32,140 @@ interface SearchResult {
 // Mock data - In production, this would come from your API/database
 const allData = {
   products: [
-    { id: "1", name: "Product 1", category: "Category 1", price: "$217.50", stock: "32" },
-    { id: "2", name: "Product 2", category: "Category 2", price: "$85.00", stock: "32" },
-    { id: "3", name: "Product 3", category: "Category 3", price: "$425.00", stock: "32" },
-    { id: "4", name: "Product 4", category: "Category 4", price: "$32.00", stock: "32" },
+    {
+      id: "1",
+      name: "Product 1",
+      category: "Category 1",
+      price: "$217.50",
+      stock: "32",
+    },
+    {
+      id: "2",
+      name: "Product 2",
+      category: "Category 2",
+      price: "$85.00",
+      stock: "32",
+    },
+    {
+      id: "3",
+      name: "Product 3",
+      category: "Category 3",
+      price: "$425.00",
+      stock: "32",
+    },
+    {
+      id: "4",
+      name: "Product 4",
+      category: "Category 4",
+      price: "$32.00",
+      stock: "32",
+    },
   ],
   orders: [
-    { id: "#ORD-001", customer: "sophea@example.com", status: "Pending", total: "$217.50" },
-    { id: "#ORD-002", customer: "virak@example.com", status: "Pending", total: "$85.00" },
-    { id: "#ORD-003", customer: "channary@example.com", status: "Completed", total: "$425.00" },
-    { id: "#ORD-004", customer: "dara@example.com", status: "Completed", total: "$32.00" },
+    {
+      id: "#ORD-001",
+      customer: "sophea@example.com",
+      status: "Pending",
+      total: "$217.50",
+    },
+    {
+      id: "#ORD-002",
+      customer: "virak@example.com",
+      status: "Pending",
+      total: "$85.00",
+    },
+    {
+      id: "#ORD-003",
+      customer: "channary@example.com",
+      status: "Completed",
+      total: "$425.00",
+    },
+    {
+      id: "#ORD-004",
+      customer: "dara@example.com",
+      status: "Completed",
+      total: "$32.00",
+    },
   ],
   customers: [
-    { id: "1", name: "Sophea Chen", email: "sophea@example.com", location: "Phnom Penh" },
-    { id: "2", name: "Virak Phan", email: "virak@example.com", location: "Siem Reap" },
-    { id: "3", name: "Channary Lim", email: "channary@example.com", location: "Battambang" },
-    { id: "4", name: "Dara Sok", email: "dara@example.com", location: "Phnom Penh" },
+    {
+      id: "1",
+      name: "Sophea Chen",
+      email: "sophea@example.com",
+      location: "Phnom Penh",
+    },
+    {
+      id: "2",
+      name: "Virak Phan",
+      email: "virak@example.com",
+      location: "Siem Reap",
+    },
+    {
+      id: "3",
+      name: "Channary Lim",
+      email: "channary@example.com",
+      location: "Battambang",
+    },
+    {
+      id: "4",
+      name: "Dara Sok",
+      email: "dara@example.com",
+      location: "Phnom Penh",
+    },
   ],
   pages: [
-    { name: "Dashboard", link: "/admin/dashboard", keywords: ["home", "overview", "stats"] },
-    { name: "Products", link: "/admin/product", keywords: ["inventory", "items", "catalog"] },
-    { name: "Orders", link: "/admin/order", keywords: ["sales", "purchases", "transactions"] },
-    { name: "Customers", link: "/admin/customer", keywords: ["users", "clients", "buyers"] },
-    { name: "Analytics", link: "/admin/analytic", keywords: ["reports", "insights", "data"] },
-    { name: "Online Store", link: "/admin/online-store", keywords: ["shop", "store", "website"] },
+    {
+      name: "Dashboard",
+      link: "/admin/dashboard",
+      keywords: ["home", "overview", "stats"],
+    },
+    {
+      name: "Products",
+      link: "/admin/product",
+      keywords: ["inventory", "items", "catalog"],
+    },
+    {
+      name: "Orders",
+      link: "/admin/order",
+      keywords: ["sales", "purchases", "transactions"],
+    },
+    {
+      name: "Customers",
+      link: "/admin/customer",
+      keywords: ["users", "clients", "buyers"],
+    },
+    {
+      name: "Analytics",
+      link: "/admin/analytic",
+      keywords: ["reports", "insights", "data"],
+    },
+    {
+      name: "Online Store",
+      link: "/admin/online-store",
+      keywords: ["shop", "store", "website"],
+    },
   ],
 };
 
-export function Header() {
+export function Header({ onMenuClick }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
+  // Mock seller profile data
+  const sellerProfile = {
+    name: "seller",
+    email: "user@gmail.com",
+    initials: "SD",
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
         setIsSearchOpen(false);
       }
     };
@@ -81,7 +191,8 @@ export function Header() {
       const categoryMatch = product.category.toLowerCase().includes(query);
       const priceMatch = product.price.toLowerCase().includes(query);
 
-      if (nameMatch) priority = product.name.toLowerCase().startsWith(query) ? 1 : 2;
+      if (nameMatch)
+        priority = product.name.toLowerCase().startsWith(query) ? 1 : 2;
       else if (categoryMatch) priority = 3;
       else if (priceMatch) priority = 4;
       else return;
@@ -125,7 +236,8 @@ export function Header() {
       const emailMatch = customer.email.toLowerCase().includes(query);
       const locationMatch = customer.location.toLowerCase().includes(query);
 
-      if (nameMatch) priority = customer.name.toLowerCase().startsWith(query) ? 3 : 4;
+      if (nameMatch)
+        priority = customer.name.toLowerCase().startsWith(query) ? 3 : 4;
       else if (emailMatch) priority = 5;
       else if (locationMatch) priority = 6;
       else return;
@@ -143,7 +255,9 @@ export function Header() {
     // Search Pages (Priority 6-7)
     allData.pages.forEach((page) => {
       const nameMatch = page.name.toLowerCase().includes(query);
-      const keywordMatch = page.keywords.some((keyword) => keyword.includes(query));
+      const keywordMatch = page.keywords.some((keyword) =>
+        keyword.includes(query)
+      );
 
       if (nameMatch || keywordMatch) {
         results.push({
@@ -196,22 +310,41 @@ export function Header() {
   };
 
   return (
-    <header className="h-14 border-b border-border bg-linear-to-r from-[#292524] to-[#44403B] flex items-center justify-between px-6 fixed top-0 left-0 right-0 z-50">
-      <Link href="/" className="text-2xl font-bold">
-        <img
-          src="/image/dashboardlogo.png"
-          alt="Loukify Logo"
-          className="inline-block w-8 h-8 mr-2"
-        />
-        <span className="text-card font-inter">Loukify</span>
-      </Link>
-      <div className="flex-1 max-w-xl relative" ref={searchRef}>
-        <div className="relative">
+    <header className="h-14 border-b border-border bg-linear-to-r from-[#292524] to-[#44403B] flex items-center justify-between px-3 sm:px-4 md:px-6 fixed top-0 left-0 right-0 z-50">
+      {/* Mobile Menu Button */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="lg:hidden text-card"
+          onClick={onMenuClick}
+        >
+          <Menu className="w-5 h-5" />
+        </Button>
+
+        <Link href="/" className="flex items-center gap-2">
+          <img
+            src="/image/dashboardlogo.png"
+            alt="Loukify Logo"
+            className="w-6 h-6 sm:w-8 sm:h-8"
+          />
+          <span className="text-card font-inter text-lg sm:text-2xl font-bold hidden sm:inline">
+            Loukify
+          </span>
+        </Link>
+      </div>
+
+      {/* Search Bar - Hidden on small mobile, shown on larger screens */}
+      <div
+        className="hidden md:flex flex-1 max-w-xl mx-4 relative"
+        ref={searchRef}
+      >
+        <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search products, orders, customers..."
-            className="pl-9 bg-muted border-0"
+            className="pl-9 bg-muted border-0 text-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => searchQuery && setIsSearchOpen(true)}
@@ -235,7 +368,9 @@ export function Header() {
                   }}
                   className="flex items-start gap-3 px-3 py-2 rounded-md hover:bg-muted transition-colors cursor-pointer"
                 >
-                  <div className={`mt-0.5 ${getCategoryColor(result.category)}`}>
+                  <div
+                    className={`mt-0.5 ${getCategoryColor(result.category)}`}
+                  >
                     {getCategoryIcon(result.category)}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -256,17 +391,34 @@ export function Header() {
         )}
       </div>
 
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="text-card relative">
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Search Icon for Mobile */}
+        <Button variant="ghost" size="icon" className="md:hidden text-card">
+          <Search className="w-5 h-5" />
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-card relative hidden sm:flex"
+        >
           <Bell className="w-5 h-5" />
         </Button>
+
         <div className="flex items-center gap-2">
-          <Avatar className="w-8 h-8">
-            <AvatarFallback className="bg-card text-primary text-sm">
-              A
+          <Avatar className="w-7 h-7 sm:w-8 sm:h-8">
+            <AvatarFallback className="bg-card text-primary text-xs sm:text-sm">
+              {sellerProfile.initials}
             </AvatarFallback>
           </Avatar>
-          <span className="text-card font-medium">sellerds</span>
+          <div className="hidden lg:flex flex-col">
+            <span className="text-card font-medium text-sm leading-tight">
+              {sellerProfile.name}
+            </span>
+            <span className="text-card/70 text-xs leading-tight">
+              {sellerProfile.email}
+            </span>
+          </div>
         </div>
       </div>
     </header>

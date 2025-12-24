@@ -186,7 +186,10 @@ interface OrderTableProps {
   sortByPriority?: boolean;
 }
 
-export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTableProps) {
+export function OrderTable({
+  searchQuery = "",
+  sortByPriority = false,
+}: OrderTableProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [orders, setOrders] = useState<Order[]>(Orders);
@@ -209,7 +212,7 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
       // First priority: Pending orders come before Completed orders
       if (a.status === "Pending" && b.status === "Completed") return -1;
       if (a.status === "Completed" && b.status === "Pending") return 1;
-      
+
       // Second priority: Within same status, sort by date (oldest first - FIFO)
       const dateA = new Date(a.date).getTime();
       const dateB = new Date(b.date).getTime();
@@ -222,7 +225,10 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
     setIsDialogOpen(true);
   };
 
-  const handleStatusChange = (orderID: string, newStatus: "Pending" | "Completed") => {
+  const handleStatusChange = (
+    orderID: string,
+    newStatus: "Pending" | "Completed"
+  ) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.orderID === orderID ? { ...order, status: newStatus } : order
@@ -414,11 +420,91 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
 
   return (
     <>
-      <Card className="overflow-hidden flex">
-        <div className="p-6">
-          <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
+      <Card className="overflow-hidden flex flex-col">
+        <div className="p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold mb-4">
+            Recent Orders
+          </h2>
 
-          <div className="overflow-x-auto">
+          {/* Mobile Card View */}
+          <div className="block md:hidden space-y-3">
+            {filteredOrders.length === 0 ? (
+              <div className="py-8 text-center text-sm text-muted-foreground">
+                No orders found matching your search.
+              </div>
+            ) : (
+              filteredOrders.map((order) => (
+                <Card key={order.orderID} className="p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <div className="font-medium text-sm text-foreground mb-1">
+                        {order.orderID}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {order.customerID} • {order.email}
+                      </div>
+                    </div>
+                    <div className="text-sm font-semibold text-foreground">
+                      {order.totalSpent}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-3">
+                    <Select
+                      value={order.status}
+                      onValueChange={(value) =>
+                        handleStatusChange(
+                          order.orderID,
+                          value as "Pending" | "Completed"
+                        )
+                      }
+                    >
+                      <SelectTrigger
+                        className={`w-[110px] text-xs ${
+                          order.status === "Pending"
+                            ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-100"
+                            : "bg-green-100 text-green-700 border-green-300 hover:bg-green-100"
+                        }`}
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Pending">Pending</SelectItem>
+                        <SelectItem value="Completed">Completed</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <span className="text-xs text-muted-foreground">
+                      {order.date}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleViewOrder(order)}
+                      className="flex-1 text-xs"
+                      type="button"
+                    >
+                      <Eye className="w-3 h-3 mr-1" />
+                      View
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handlePrintReceipt(order)}
+                      className="flex-1 text-xs"
+                      type="button"
+                    >
+                      <Printer className="w-3 h-3 mr-1" />
+                      Print
+                    </Button>
+                  </div>
+                </Card>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
@@ -445,7 +531,10 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
               <tbody>
                 {filteredOrders.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-muted-foreground">
+                    <td
+                      colSpan={6}
+                      className="py-8 text-center text-muted-foreground"
+                    >
                       No orders found matching your search.
                     </td>
                   </tr>
@@ -455,75 +544,80 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
                       key={order.orderID}
                       className="border-b border-border last:border-0 hover:bg-muted/50 transition-colors"
                     >
-                    <td className="py-4 px-4">
-                      <div className="font-medium text-foreground">
-                        {order.orderID}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="space-y-1">
+                      <td className="py-4 px-4">
                         <div className="font-medium text-foreground">
-                          {order.customerID}
+                          {order.orderID}
                         </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="space-y-1">
+                          <div className="font-medium text-foreground">
+                            {order.customerID}
+                          </div>
+                          <div className="text-sm text-muted-foreground">
+                            {order.email}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
+                        <Select
+                          value={order.status}
+                          onValueChange={(value) =>
+                            handleStatusChange(
+                              order.orderID,
+                              value as "Pending" | "Completed"
+                            )
+                          }
+                        >
+                          <SelectTrigger
+                            className={`w-[130px] ${
+                              order.status === "Pending"
+                                ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-100"
+                                : "bg-green-100 text-green-700 border-green-300 hover:bg-green-100"
+                            }`}
+                          >
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Pending">Pending</SelectItem>
+                            <SelectItem value="Completed">Completed</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="font-medium text-foreground">
+                          {order.totalSpent}
+                        </div>
+                      </td>
+                      <td className="py-4 px-4">
                         <div className="text-sm text-muted-foreground">
-                          {order.email}
+                          {order.date}
                         </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <Select
-                        value={order.status}
-                        onValueChange={(value) =>
-                          handleStatusChange(order.orderID, value as "Pending" | "Completed")
-                        }
-                      >
-                        <SelectTrigger
-                          className={`w-[130px] ${
-                            order.status === "Pending"
-                              ? "bg-yellow-100 text-yellow-700 border-yellow-300 hover:bg-yellow-100"
-                              : "bg-green-100 text-green-700 border-green-300 hover:bg-green-100"
-                          }`}
-                        >
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Pending">Pending</SelectItem>
-                          <SelectItem value="Completed">Completed</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="font-medium text-foreground">
-                        {order.totalSpent}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="text-sm text-muted-foreground">
-                        {order.date}
-                      </div>
-                    </td>
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="border border-gray-400 h-8 w-8"
-                          onClick={() => handleViewOrder(order)}
-                        >
-                          <Eye className="w-4 h-4" />
-                        </Button>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-2 relative z-0">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="border border-gray-400 h-8 w-8 hover:bg-muted relative"
+                            onClick={() => handleViewOrder(order)}
+                            type="button"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
 
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="border border-gray-400 h-8 w-8"
-                          onClick={() => handlePrintReceipt(order)}
-                        >
-                          <Printer className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="border border-gray-400 h-8 w-8 hover:bg-muted relative"
+                            onClick={() => handlePrintReceipt(order)}
+                            type="button"
+                          >
+                            <Printer className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
                   ))
                 )}
               </tbody>
@@ -532,50 +626,68 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
         </div>
       </Card>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Order Details - {selectedOrder?.orderID}</DialogTitle>
-            <DialogDescription>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen} modal={true}>
+        <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-2xl max-h-[85vh] sm:max-h-[80vh] overflow-y-auto p-4 sm:p-6">
+          <DialogHeader className="space-y-2 sm:space-y-3">
+            <DialogTitle className="text-lg sm:text-xl">
+              Order Details - {selectedOrder?.orderID}
+            </DialogTitle>
+            <DialogDescription className="text-xs sm:text-sm">
               View complete order information and items purchased
             </DialogDescription>
           </DialogHeader>
 
           {selectedOrder && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 mt-2">
               {/* Customer Information */}
-              <div className="space-y-3">
-                <h3 className="font-semibold text-sm text-muted-foreground">
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="font-semibold text-xs sm:text-sm text-muted-foreground uppercase tracking-wide">
                   Customer Information
                 </h3>
-                <div className="grid grid-cols-2 gap-4 p-4 bg-muted/50 rounded-lg">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 bg-muted/50 rounded-lg">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Customer ID</p>
-                    <p className="text-sm font-medium">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Customer ID
+                    </p>
+                    <p className="text-sm sm:text-base font-medium">
                       {selectedOrder.customerID}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Email</p>
-                    <p className="text-sm font-medium">{selectedOrder.email}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Email
+                    </p>
+                    <p className="text-sm sm:text-base font-medium break-all">
+                      {selectedOrder.email}
+                    </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Phone</p>
-                    <p className="text-sm font-medium">{selectedOrder.phone}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Phone
+                    </p>
+                    <p className="text-sm sm:text-base font-medium">
+                      {selectedOrder.phone}
+                    </p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Order Date</p>
-                    <p className="text-sm font-medium">{selectedOrder.date}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Order Date
+                    </p>
+                    <p className="text-sm sm:text-base font-medium">
+                      {selectedOrder.date}
+                    </p>
                   </div>
-                  <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Status</p>
+                  <div className="space-y-1 sm:col-span-2">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Status
+                    </p>
                     <Badge
                       variant={getStatusVariant(selectedOrder.status)}
-                      className={
+                      className={`text-xs sm:text-sm ${
                         selectedOrder.status === "Pending"
                           ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-100 w-fit"
                           : "bg-green-100 text-green-700 hover:bg-green-100 w-fit"
-                      }
+                      }`}
                     >
                       {selectedOrder.status}
                     </Badge>
@@ -584,65 +696,108 @@ export function OrderTable({ searchQuery = "", sortByPriority = false }: OrderTa
               </div>
 
               {/* Items Purchased */}
-              <div className="space-y-3">
-                <h3 className="font-semibold text-sm text-muted-foreground">
+              <div className="space-y-2 sm:space-y-3">
+                <h3 className="font-semibold text-xs sm:text-sm text-muted-foreground uppercase tracking-wide">
                   Items Purchased ({selectedOrder.items.length})
                 </h3>
-                <div className="border rounded-lg overflow-hidden">
-                  <table className="w-full">
-                    <thead className="bg-muted/50">
-                      <tr>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
-                          Item
-                        </th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-muted-foreground">
-                          Quantity
-                        </th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
-                          Price
-                        </th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
-                          Subtotal
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {selectedOrder.items.map((item) => (
-                        <tr
-                          key={item.id}
-                          className="border-t border-border hover:bg-muted/30"
-                        >
-                          <td className="py-3 px-4">
-                            <p className="text-sm font-medium">{item.name}</p>
+
+                {/* Mobile Card View */}
+                <div className="block sm:hidden space-y-3">
+                  {selectedOrder.items.map((item) => (
+                    <div
+                      key={item.id}
+                      className="border rounded-lg p-3 bg-card space-y-2"
+                    >
+                      <div className="flex justify-between items-start">
+                        <p className="text-sm font-medium flex-1">
+                          {item.name}
+                        </p>
+                        <p className="text-sm font-bold ml-2">
+                          ${(item.quantity * item.price).toFixed(2)}
+                        </p>
+                      </div>
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>Qty: {item.quantity}</span>
+                        <span>${item.price.toFixed(2)} each</span>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Mobile Total */}
+                  <div className="border-t-2 pt-3 mt-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-base font-semibold">Total:</span>
+                      <span className="text-lg font-bold">
+                        {selectedOrder.totalSpent}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden sm:block border rounded-lg overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-muted/50">
+                        <tr>
+                          <th className="text-left py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-muted-foreground">
+                            Item
+                          </th>
+                          <th className="text-center py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-muted-foreground">
+                            Quantity
+                          </th>
+                          <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-muted-foreground">
+                            Price
+                          </th>
+                          <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-muted-foreground">
+                            Subtotal
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedOrder.items.map((item) => (
+                          <tr
+                            key={item.id}
+                            className="border-t border-border hover:bg-muted/30 transition-colors"
+                          >
+                            <td className="py-2.5 sm:py-3 px-3 sm:px-4">
+                              <p className="text-xs sm:text-sm font-medium">
+                                {item.name}
+                              </p>
+                            </td>
+                            <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-center">
+                              <p className="text-xs sm:text-sm">
+                                {item.quantity}
+                              </p>
+                            </td>
+                            <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-right">
+                              <p className="text-xs sm:text-sm">
+                                ${item.price.toFixed(2)}
+                              </p>
+                            </td>
+                            <td className="py-2.5 sm:py-3 px-3 sm:px-4 text-right">
+                              <p className="text-xs sm:text-sm font-medium">
+                                ${(item.quantity * item.price).toFixed(2)}
+                              </p>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot className="bg-muted/50 border-t-2 border-border">
+                        <tr>
+                          <td
+                            colSpan={3}
+                            className="py-3 px-3 sm:px-4 text-right text-sm sm:text-base font-semibold"
+                          >
+                            Total:
                           </td>
-                          <td className="py-3 px-4 text-center">
-                            <p className="text-sm">{item.quantity}</p>
-                          </td>
-                          <td className="py-3 px-4 text-right">
-                            <p className="text-sm">${item.price.toFixed(2)}</p>
-                          </td>
-                          <td className="py-3 px-4 text-right">
-                            <p className="text-sm font-medium">
-                              ${(item.quantity * item.price).toFixed(2)}
-                            </p>
+                          <td className="py-3 px-3 sm:px-4 text-right font-bold text-base sm:text-lg">
+                            {selectedOrder.totalSpent}
                           </td>
                         </tr>
-                      ))}
-                    </tbody>
-                    <tfoot className="bg-muted/50 border-t-2 border-border">
-                      <tr>
-                        <td
-                          colSpan={3}
-                          className="py-3 px-4 text-right font-semibold"
-                        >
-                          Total:
-                        </td>
-                        <td className="py-3 px-4 text-right font-bold text-lg">
-                          {selectedOrder.totalSpent}
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+                      </tfoot>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

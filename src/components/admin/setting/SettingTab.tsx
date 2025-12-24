@@ -16,21 +16,21 @@ export function SettingTab() {
 
   return (
     <>
-      <div className="mb-6">
-        <h1 className="text-3xl font-semibold text-foreground mb-2">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-foreground mb-2">
           Settings
         </h1>
-        <p className="text-muted-foreground">
+        <p className="text-sm sm:text-base text-muted-foreground">
           Manage your store and account preferences
         </p>
       </div>
-      <div className="flex gap-2 sm:gap-4 mb-6 sm:mb-8 bg-[#e8e8e8] p-1 sm:p-1.5 rounded-full w-full ">
+      <div className="flex gap-1.5 sm:gap-2 mb-6 sm:mb-8 bg-[#e8e8e8] p-1 sm:p-1.5 rounded-full w-full overflow-x-auto">
         {tabs.map((tab) => (
           <Link
             key={tab.id}
             href={tab.href}
             className={cn(
-              "flex-1 px-4 sm:px-6 py-1 sm:py-1.5 rounded-full text-sm sm:text-base font-medium transition-all whitespace-nowrap text-center",
+              "flex-1 min-w-20 px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-medium transition-all whitespace-nowrap text-center",
               pathname === tab.href
                 ? "bg-white text-[#2a2a2a] shadow-sm"
                 : "bg-transparent text-[#6a6a6a] hover:text-[#2a2a2a] hover:bg-[#f2f2f2]"

@@ -336,36 +336,39 @@ export function ExportDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6">
+        <DialogHeader className="space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Download className="w-6 h-6" />
-              <DialogTitle className="text-2xl font-semibold">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Download className="w-5 h-5 sm:w-6 sm:h-6" />
+              <DialogTitle className="text-lg sm:text-xl md:text-2xl font-semibold">
                 Export Analytics Data
               </DialogTitle>
             </div>
           </div>
-          <p className="text-muted-foreground text-base mt-2">
+          <p className="text-muted-foreground text-xs sm:text-sm md:text-base mt-2">
             Select the data you want to export as PDF
           </p>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <div className="space-y-4 sm:space-y-6 py-2 sm:py-4">
           {/* PDF Export Info */}
-          <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg border border-border">
-            <FileText className="w-8 h-8 text-red-600 shrink-0" />
+          <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-muted/50 rounded-lg border border-border">
+            <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-red-600 shrink-0" />
             <div>
-              <div className="font-semibold text-base">Export as PDF Report</div>
-              <div className="text-sm text-muted-foreground">
-                Your analytics data will be exported as a professional formatted PDF document
+              <div className="font-semibold text-sm sm:text-base">
+                Export as PDF Report
+              </div>
+              <div className="text-xs sm:text-sm text-muted-foreground">
+                Your analytics data will be exported as a professional formatted
+                PDF document
               </div>
             </div>
           </div>
 
           {/* Select Data Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               Select Data to Export
             </h3>
             <div className="space-y-3">
@@ -377,7 +380,7 @@ export function ExportDialog({
                 />
                 <Label
                   htmlFor="keyMetrics"
-                  className="font-medium cursor-pointer"
+                  className="text-sm sm:text-base font-medium cursor-pointer"
                 >
                   Key Metrics (Revenue, Orders, Customers)
                 </Label>
@@ -391,7 +394,7 @@ export function ExportDialog({
                 />
                 <Label
                   htmlFor="salesOverview"
-                  className="font-medium cursor-pointer"
+                  className="text-sm sm:text-base font-medium cursor-pointer"
                 >
                   Sales Overview (Monthly sales performance)
                 </Label>
@@ -405,7 +408,7 @@ export function ExportDialog({
                 />
                 <Label
                   htmlFor="orderVolume"
-                  className="font-medium cursor-pointer"
+                  className="text-sm sm:text-base font-medium cursor-pointer"
                 >
                   Order Volume (Monthly order count)
                 </Label>
@@ -415,13 +418,17 @@ export function ExportDialog({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end gap-3 pt-4 border-t">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-4 border-t">
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="w-full sm:w-auto order-2 sm:order-1"
+          >
             Cancel
           </Button>
           <Button
             onClick={handleExport}
-            className="bg-red-600 text-white hover:bg-red-700"
+            className="bg-red-600 text-white hover:bg-red-700 w-full sm:w-auto order-1 sm:order-2"
           >
             <Download className="w-4 h-4 mr-2" />
             Export as PDF
